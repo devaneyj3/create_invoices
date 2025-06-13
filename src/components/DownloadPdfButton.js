@@ -4,11 +4,11 @@
 
 import { getCurrentDateFormatted } from "@/utils/getDate";
 
-export default function DownloadPdfButton({invoiceNumber}) {
+export default function DownloadPdfButton({ invoiceNumber, amount }) {
 	const downloadPdf = async () => {
 		// Optionally, pass dynamic text as a query parameter
 		const response = await fetch(
-			"/api/modify-pdf?invoiceNumber=" + invoiceNumber,
+			"/api/modify-pdf?invoiceNumber=" + invoiceNumber + "&amount=" + amount
 		);
 		const blob = await response.blob();
 		const url = window.URL.createObjectURL(blob);
