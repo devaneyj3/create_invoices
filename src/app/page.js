@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import DownloadPdfButton from "../components/DownloadPdfButton";
 import styles from "./page.module.scss";
 export default function Home() {
-	const [invoiceNumber, setInvoiceNumber] = useState("");
+	const [invoiceNum, setInvoiceNum] = useState("");
 	const [amount, setAmount] = useState("");
 
 	return (
@@ -13,15 +13,15 @@ export default function Home() {
 			<h1 className={styles.title}>Make your own invoice</h1>
 
 			<div className={styles.formGroup}>
-				<label htmlFor="invoiceNumber" className={styles.label}>
+				<label htmlFor="invoiceNum" className={styles.label}>
 					Invoice Number
 				</label>
 				<input
 					type="text"
-					id="invoiceNumber"
+					id="invoiceNum"
 					className={styles.input}
-					value={invoiceNumber}
-					onChange={(e) => setInvoiceNumber(e.target.value)}
+					value={invoiceNum}
+					onChange={(e) => setInvoiceNum(e.target.value)}
 					placeholder="Enter invoice number"
 					required
 				/>
@@ -43,7 +43,7 @@ export default function Home() {
 			</div>
 
 			<div className={styles.buttonContainer}>
-				<DownloadPdfButton invoiceNumber={invoiceNumber} amount={amount} />
+				<DownloadPdfButton invoiceNum={invoiceNum} amount={amount} />
 			</div>
 		</div>
 	);

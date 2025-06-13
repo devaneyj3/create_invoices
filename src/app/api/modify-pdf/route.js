@@ -2,14 +2,21 @@ import { getCurrentDateFormatted } from "@/utils/getDate";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { formatMoney } from "@/utils/formatMoney";
 
-export async function GET(request) {
-	// Retrieve invoice number from query parameters
-	const url = new URL(request.url);
-	const invoiceNum = url.searchParams.get("invoiceNumber"); // Default to "06" if no number is provided
-	const amount = url.searchParams.get("amount");
-	const blue = rgb(34 / 255, 100 / 255, 159 / 255);
-
+export async function POST(request) {
 	try {
+		// Get data from request body
+		const { invoiceNum, amount } = await request.json();
+
+		// Validate inputs
+		if (!invoiceNum || !amount) {
+			return new Response(
+				JSON.stringify({ error: "Missing required fields" }),
+				{ status: 400 }
+			);
+		}
+
+		const blue = rgb(34 / 255, 100 / 255, 159 / 255);
+
 		// Create a new PDF document and embed the Times Roman font
 		const pdfDoc = await PDFDocument.create();
 		const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
