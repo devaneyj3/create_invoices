@@ -1,27 +1,26 @@
-// components/DownloadPdfButton.jsx
-
-"use client";
-
+// src/components/DownloadPdfButton.js
+import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { InvoicePDF } from "./InvoicePDF";
 import { getCurrentDateFormatted } from "@/utils/getDate";
-import axios from "axios";
+import styles from "./DownloadPdf.module.scss";
 
-export default function DownloadPdfButton({ invoiceNum, amount }) {
+export default function DownloadPdfButton({ invoiceNumber, amount }) {
+	const [isGenerating, setIsGenerating] = useState(false);
+
 	const downloadPdf = async () => {
-		try {
-			// Using POST method with request body
-			const response = await axios.post(
-				"/api/modify-pdf",
-				{
-					invoiceNum,
-					amount,
-				},
-				{
-					responseType: "blob", // Important for handling PDF files
-				}
-			);
+		if (!invoiceNumber || !amount) {
+			alert("Please fill in all fields");
+			return;
+		}
 
-			// Create blob URL and trigger download
-			const url = window.URL.createObjectURL(new Blob([response.data]));
+		setIsGenerating(true);
+		try {
+			const blob = await pdf(
+				<InvoicePDF invoiceNumber={invoiceNumber} amount={amount} />
+			).toBlob();
+
+			const url = window.URL.createObjectURL(blob);
 			const link = document.createElement("a");
 			link.href = url;
 			link.download = `invoice_${getCurrentDateFormatted()}.pdf`;
@@ -29,10 +28,19 @@ export default function DownloadPdfButton({ invoiceNum, amount }) {
 			link.click();
 			link.remove();
 		} catch (error) {
-			console.error("Error downloading PDF:", error);
+			console.error("Error generating PDF:", error);
 			alert("Failed to generate PDF. Please try again.");
+		} finally {
+			setIsGenerating(false);
 		}
 	};
 
-	return <button onClick={downloadPdf}>Create Invoice</button>;
+	return (
+		<button
+			onClick={downloadPdf}
+			disabled={isGenerating}
+			className={styles.button}>
+			{isGenerating ? "Generating..." : "Download Invoice"}
+		</button>
+	);
 }

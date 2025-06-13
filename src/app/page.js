@@ -1,11 +1,12 @@
+// src/app/page.js
 "use client";
-// app/page.jsx
 import React, { useState } from "react";
-
 import DownloadPdfButton from "../components/DownloadPdfButton";
+import PDFPreview from "../components/PDFPreview";
 import styles from "./page.module.scss";
+
 export default function Home() {
-	const [invoiceNum, setInvoiceNum] = useState("");
+	const [invoiceNumber, setInvoiceNumber] = useState("");
 	const [amount, setAmount] = useState("");
 
 	return (
@@ -13,15 +14,15 @@ export default function Home() {
 			<h1 className={styles.title}>Make your own invoice</h1>
 
 			<div className={styles.formGroup}>
-				<label htmlFor="invoiceNum" className={styles.label}>
+				<label htmlFor="invoiceNumber" className={styles.label}>
 					Invoice Number
 				</label>
 				<input
 					type="text"
-					id="invoiceNum"
+					id="invoiceNumber"
 					className={styles.input}
-					value={invoiceNum}
-					onChange={(e) => setInvoiceNum(e.target.value)}
+					value={invoiceNumber}
+					onChange={(e) => setInvoiceNumber(e.target.value)}
 					placeholder="Enter invoice number"
 					required
 				/>
@@ -43,7 +44,8 @@ export default function Home() {
 			</div>
 
 			<div className={styles.buttonContainer}>
-				<DownloadPdfButton invoiceNum={invoiceNum} amount={amount} />
+				<PDFPreview invoiceNumber={invoiceNumber} amount={amount} />
+				<DownloadPdfButton invoiceNumber={invoiceNumber} amount={amount} />
 			</div>
 		</div>
 	);
