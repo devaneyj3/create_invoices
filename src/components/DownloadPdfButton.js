@@ -20,5 +20,5 @@ export default function DownloadPdfButton({ invoiceNumber, amount }) {
 		link.remove();
 	};
 
-	return <button onClick={downloadPdf}>Download Modified PDF</button>;
+	return <button onClick={downloadPdf}>Create Invoice</button>;
 }

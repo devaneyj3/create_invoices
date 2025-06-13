@@ -10,9 +10,7 @@ export default function Home() {
 
 	return (
 		<div className={styles.container}>
-			<h1 className={styles.title}>
-				Dynamic PDF Editor with pdf-lib and Next.js App Router
-			</h1>
+			<h1 className={styles.title}>Make your own invoice</h1>
 
 			<div className={styles.formGroup}>
 				<label htmlFor="invoiceNumber" className={styles.label}>
