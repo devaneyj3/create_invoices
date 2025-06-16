@@ -6,96 +6,207 @@ import { getCurrentDateFormatted } from "@/utils/getDate";
 // Create styles
 const styles = StyleSheet.create({
 	page: {
-		padding: 30,
+		padding: 50,
 		fontSize: 12,
 		fontFamily: "Times-Roman",
 	},
 	header: {
-		marginBottom: 20,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginBottom: 10,
+	},
+	leftHeader: {
+		width: "50%",
+		display: "flex",
+		flexDirection: "column",
+	},
+	rightHeader: {
+		width: "50%",
+		display: "flex",
+		flexDirection: "column",
 	},
 	title: {
-		fontSize: 24,
-		marginBottom: 10,
+		fontSize: 26,
 		color: "#22649D",
+		fontFamily: "Times-Bold",
 	},
-	section: {
-		margin: 10,
-		padding: 10,
+	name: {
+		marginBottom: 8,
+		fontSize: 14,
+		fontFamily: "Times-Bold",
 	},
-	row: {
+	subtitle: {
+		fontSize: 11,
+		fontFamily: "Times-Italic",
+	},
+	box: {
+		marginBottom: "40px",
+		gap: 10,
+	},
+	contactLabel: {
+		marginBottom: 8,
+		fontSize: 12,
+		fontFamily: "Times-Bold",
+	},
+	contactText: {
+		marginBottom: 8,
+		fontSize: 12,
+	},
+	invoiceText: {
+		fontSize: 11,
+		color: "#22649D",
+		fontFamily: "Times-Bold",
+	},
+	billToLabel: {
+		fontSize: 12,
+		marginBottom: 8,
+		fontFamily: "Times-Bold",
+	},
+	leftHeaderContents: {
+		display: "flex",
+		flexDirection: "column",
+		height: "60%",
+	},
+	rightHeaderContents: {
+		display: "flex",
+		flexDirection: "column",
+		height: "60%",
+		alignSelf: "flex-end",
+	},
+	billToText: {
+		marginBottom: 8,
+		fontSize: 12,
+	},
+	serviceText: {
+		fontSize: 12,
+		marginBottom: 8,
+		fontFamily: "Times-Bold",
+	},
+	table: {
+		marginTop: 10,
+	},
+	tableHeader: {
+		flexDirection: "row",
+		marginBottom: 20,
+	},
+	tableHeaderText: {
+		fontSize: 12,
+		color: "#22649D",
+		fontFamily: "Times-Bold",
+	},
+	tableRow: {
 		flexDirection: "row",
 		marginBottom: 5,
 	},
-	label: {
-		width: 100,
+	description: {
+		width: 300,
+		fontSize: 12,
 		fontFamily: "Times-Bold",
 	},
-	value: {
-		flex: 1,
+	date: {
+		width: 200,
+		fontSize: 12,
+		fontFamily: "Times-Bold",
 	},
-	contactInfo: {
-		marginTop: 20,
+	amount: {
+		fontSize: 12,
+	},
+	paymentInstructions: {
+		marginTop: 60,
+	},
+	paymentText: {
+		fontSize: 12,
+		marginBottom: 5,
 	},
 	footer: {
 		position: "absolute",
-		bottom: 30,
-		left: 30,
-		right: 30,
-		textAlign: "center",
+		bottom: 50,
+		left: 50,
+		right: 50,
+	},
+	footerText: {
+		fontSize: 12,
+		marginBottom: 5,
 	},
 });
 
 export const InvoicePDF = ({ invoiceNumber, amount }) => (
 	<Document>
-		<Page size="A4" style={styles.page}>
+		<Page size="LETTER" style={styles.page}>
 			{/* Header */}
 			<View style={styles.header}>
-				<Text style={styles.title}>INVOICE</Text>
-				<Text style={styles.label}>JORDAN DEVANEY</Text>
-				<Text>Full Stack Web Developer</Text>
-			</View>
-
-			{/* Contact Information */}
-			<View style={styles.contactInfo}>
-				<Text>Street Address</Text>
-				<Text>Whitmore Lake, MI</Text>
-				<Text>810.772.0086</Text>
-			</View>
-
-			{/* Invoice Details */}
-			<View style={styles.section}>
-				<View style={styles.row}>
-					<Text style={styles.label}>Invoice Number:</Text>
-					<Text style={styles.value}>2025-{invoiceNumber}</Text>
+				<View style={styles.leftHeader}>
+					<View style={styles.leftHeaderContents}>
+						<View style={styles.box}>
+							<Text style={styles.name}>JORDAN DEVANEY</Text>
+							<Text style={styles.subtitle}>Full Stack Web Developer</Text>
+						</View>
+						<View style={styles.box}>
+							<Text style={styles.contactLabel}>Street Address</Text>
+							<Text style={styles.contactText}>Whitmore Lake, MI</Text>
+							<Text style={styles.contactText}>810.772.0086</Text>
+						</View>
+						<View style={styles.box}>
+							<Text style={styles.billToLabel}>TO</Text>
+							<Text style={styles.billToText}>AG-USA LLC</Text>
+							<Text style={styles.billToText}>119 PALMETTO</Text>
+							<Text style={styles.billToText}>ROAD</Text>
+							<Text style={styles.billToText}>TYRONE, GA 30290</Text>
+							<Text style={styles.billToText}>888-588-3139</Text>
+						</View>
+					</View>
 				</View>
-				<View style={styles.row}>
-					<Text style={styles.label}>Date:</Text>
-					<Text style={styles.value}>{getCurrentDateFormatted()}</Text>
+				<View style={styles.rightHeader}>
+					<View style={styles.rightHeaderContents}>
+						<View style={styles.box}>
+							<Text style={styles.title}>INVOICE</Text>
+						</View>
+						<View style={styles.box}>
+							<Text style={styles.invoiceText}>
+								INVOICE#: 2025-{invoiceNumber}
+							</Text>
+							<Text style={styles.invoiceText}>
+								DATE: {getCurrentDateFormatted()}
+							</Text>
+						</View>
+						<View style={styles.box}>
+							<Text style={styles.serviceText}>FOR WEB DEVELOPMENT &</Text>
+							<Text style={styles.serviceText}>REGISTRATION</Text>
+						</View>
+					</View>
 				</View>
 			</View>
 
-			{/* Bill To Section */}
-			<View style={styles.section}>
-				<Text style={styles.label}>Bill To:</Text>
-				<Text>AG-USA LLC</Text>
-				<Text>119 PALMETTO</Text>
-				<Text>ROAD</Text>
-				<Text>TYRONE, GA 30290</Text>
-				<Text>888-588-3139</Text>
+			{/* Table */}
+			<View style={styles.table}>
+				<View style={styles.tableHeader}>
+					<Text style={[styles.tableHeaderText, { width: 300 }]}>
+						Description
+					</Text>
+					<Text style={[styles.tableHeaderText, { width: 200 }]}>Date</Text>
+					<Text style={styles.tableHeaderText}>Amount</Text>
+				</View>
+				<View style={styles.tableRow}>
+					<Text style={styles.description}>Web Development</Text>
+					<Text style={styles.date}>{getCurrentDateFormatted()}</Text>
+					<Text style={styles.amount}>{formatMoney(amount)}</Text>
+				</View>
 			</View>
 
-			{/* Amount Section */}
-			<View style={styles.section}>
-				<View style={styles.row}>
-					<Text style={styles.label}>Amount:</Text>
-					<Text style={styles.value}>{formatMoney(amount)}</Text>
-				</View>
+			{/* Payment Instructions */}
+			<View style={styles.paymentInstructions}>
+				<Text style={styles.paymentText}>
+					Make all checks payable to JORDAN DEVANEY
+				</Text>
+				<Text style={styles.paymentText}>is due within 30 days.</Text>
 			</View>
 
 			{/* Footer */}
 			<View style={styles.footer}>
-				<Text>Make all checks payable to JORDAN DEVANEY</Text>
-				<Text>Payment is due within 30 days.</Text>
+				<Text style={styles.footerText}>
+					If you have any questions concerning this invoice, contact Jordan
+					Devaney at 810.772.0086
+				</Text>
 			</View>
 		</Page>
 	</Document>
