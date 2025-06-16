@@ -1,8 +1,8 @@
 // src/app/page.js
 "use client";
 import React, { useState } from "react";
-import DownloadPdfButton from "./components/DownloadPdfButton";
-import PDFPreview from "./components/PDFPreview";
+import DownloadPdfButton from "../DownloadPdfButton";
+import PDFPreview from "../PDFPreview";
 import styles from "./Form.module.scss";
 
 export default function Form() {
