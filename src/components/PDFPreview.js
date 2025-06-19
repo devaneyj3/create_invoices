@@ -1,8 +1,26 @@
 // src/components/PDFPreview.js
 import { useState } from "react";
-import { PDFViewer } from "@react-pdf/renderer";
-import { InvoicePDF } from "./InvoicePDF";
+import dynamic from "next/dynamic";
 import styles from "./PDFPreview.module.scss";
+import { formatMoney } from "@/utils/formatMoney";
+import { getCurrentDateFormatted } from "@/utils/getDate";
+
+// Dynamically import PDFViewer with no SSR to avoid crypto issues
+const PDFViewer = dynamic(
+	() => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
+	{
+		ssr: false,
+		loading: () => <div>Loading PDF viewer...</div>,
+	}
+);
+
+// Dynamically import InvoicePDF with no SSR
+const InvoicePDF = dynamic(
+	() => import("./InvoicePDF").then((mod) => mod.InvoicePDF),
+	{
+		ssr: false,
+	}
+);
 
 export default function PDFPreview({ invoiceNumber, amount }) {
 	const [isPreviewOpen, setIsPreviewOpen] = useState(false);
