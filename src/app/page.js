@@ -1,5 +1,5 @@
 import Form from "@/components/Form/Form";
 
-export default function HomePage() {
+export default function Home() {
 	return <Form />;
 }
