@@ -211,3 +211,6 @@ export const InvoicePDF = ({ invoiceNumber, amount }) => (
 		</Page>
 	</Document>
 );
+
+// Add default export for better compatibility
+export default InvoicePDF;

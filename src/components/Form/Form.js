@@ -41,6 +41,9 @@ export default function Form() {
 						name="amount"
 						className={styles.input}
 						placeholder="Enter amount"
+						max={100000000}
+						min={1}
+						step={0.01}
 						required
 					/>
 				</div>

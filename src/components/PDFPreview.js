@@ -1,36 +1,54 @@
 // src/components/PDFPreview.js
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import styles from "./PDFPreview.module.scss";
-import { formatMoney } from "@/utils/formatMoney";
-import { getCurrentDateFormatted } from "@/utils/getDate";
-
-// Dynamically import PDFViewer with no SSR to avoid crypto issues
-const PDFViewer = dynamic(
-	() => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-	{
-		ssr: false,
-		loading: () => <div>Loading PDF viewer...</div>,
-	}
-);
-
-// Dynamically import InvoicePDF with no SSR
-const InvoicePDF = dynamic(
-	() => import("./InvoicePDF").then((mod) => mod.InvoicePDF),
-	{
-		ssr: false,
-	}
-);
 
 export default function PDFPreview({ invoiceNumber, amount }) {
 	const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+	const [pdfUrl, setPdfUrl] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const openPreview = async () => {
+		setIsLoading(true);
+		try {
+			const response = await fetch("/api/generate-pdf", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ invoiceNumber, amount }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to generate PDF");
+			}
+
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			setPdfUrl(url);
+			setIsPreviewOpen(true);
+		} catch (error) {
+			console.error("Error generating PDF preview:", error);
+			alert("Failed to generate PDF preview. Please try again.");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	const closePreview = () => {
+		setIsPreviewOpen(false);
+		if (pdfUrl) {
+			window.URL.revokeObjectURL(pdfUrl);
+			setPdfUrl(null);
+		}
+	};
 
 	if (!isPreviewOpen) {
 		return (
 			<button
-				onClick={() => setIsPreviewOpen(true)}
+				onClick={openPreview}
+				disabled={isLoading}
 				className={styles.previewButton}>
-				Preview Invoice
+				{isLoading ? "Loading..." : "Preview Invoice"}
 			</button>
 		);
 	}
@@ -39,16 +57,20 @@ export default function PDFPreview({ invoiceNumber, amount }) {
 		<div className={styles.previewContainer}>
 			<div className={styles.previewHeader}>
 				<h3>Invoice Preview</h3>
-				<button
-					onClick={() => setIsPreviewOpen(false)}
-					className={styles.closeButton}>
+				<button onClick={closePreview} className={styles.closeButton}>
 					Close Preview
 				</button>
 			</div>
 			<div className={styles.pdfViewer}>
-				<PDFViewer width="100%" height="600px">
-					<InvoicePDF invoiceNumber={invoiceNumber} amount={amount} />
-				</PDFViewer>
+				{pdfUrl && (
+					<iframe
+						src={pdfUrl}
+						width="100%"
+						height="600px"
+						title="Invoice Preview"
+						style={{ border: "none" }}
+					/>
+				)}
 			</div>
 		</div>
 	);
