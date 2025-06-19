@@ -1,5 +1,4 @@
 import "./globals.css";
-import "@/utils/cryptoPolyfill";
 
 export const metadata = {
 	title: "Create Your Invoice",
