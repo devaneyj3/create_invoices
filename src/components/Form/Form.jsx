@@ -4,7 +4,7 @@ import React, { useActionState, useState } from "react";
 import DownloadPdfButton from "../DownloadPdfButton";
 import PDFPreview from "../PDFPreview";
 import styles from "./Form.module.scss";
-import { createInvoice } from "@/app/lib/actions";
+import { createInvoice } from "../../app/lib/actions";
 
 export default function Form() {
 	const [state, action, pending] = useActionState(createInvoice, {

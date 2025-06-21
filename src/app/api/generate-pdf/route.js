@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { pdf } from "@react-pdf/renderer";
-import { InvoicePDF } from "@/components/InvoicePDF";
+import { InvoicePDF } from "@/components/InvoicePDF.jsx";
 import { getCurrentDateFormatted } from "@/utils/getDate";
 
 export async function POST(request) {

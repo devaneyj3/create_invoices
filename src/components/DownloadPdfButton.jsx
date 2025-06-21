@@ -1,7 +1,8 @@
 // src/components/DownloadPdfButton.js
 import { useState } from "react";
-import { getCurrentDateFormatted } from "@/utils/getDate";
+
 import styles from "./DownloadPdf.module.scss";
+import { getCurrentDateFormatted } from "../utils/getDate";
 
 export default function DownloadPdfButton({ invoiceNumber, amount }) {
 	const [isGenerating, setIsGenerating] = useState(false);
