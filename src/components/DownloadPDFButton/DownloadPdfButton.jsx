@@ -2,11 +2,12 @@
 import { useState } from "react";
 
 import styles from "./DownloadPdf.module.scss";
-import { getCurrentDateFormatted } from "../utils/getDate";
+import { getCurrentDateFormatted } from "../../utils/getDate";
 
-export default function DownloadPdfButton({ invoiceNumber, amount }) {
+export default function DownloadPdfButton(props) {
 	const [isGenerating, setIsGenerating] = useState(false);
 
+	const { invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription } = props
 	const downloadPdf = async () => {
 		setIsGenerating(true);
 		try {
@@ -15,10 +16,9 @@ export default function DownloadPdfButton({ invoiceNumber, amount }) {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ invoiceNumber, amount }),
+				body: JSON.stringify({ invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription }),
 			});
-
-			if (!response.ok) {
+	if (!response.ok) {
 				throw new Error("Failed to generate PDF");
 			}
 
@@ -47,6 +47,7 @@ export default function DownloadPdfButton({ invoiceNumber, amount }) {
 	return (
 		<button
 			type="submit"
+			data-testid="download_invoice"
 			onClick={downloadPdf}
 			disabled={isGenerating}
 			className={styles.button}>

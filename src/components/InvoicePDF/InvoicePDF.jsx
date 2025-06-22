@@ -1,7 +1,7 @@
 // src/components/InvoicePDF.js
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { formatMoney } from "@/utils/formatMoney";
-import { getCurrentDateFormatted } from "@/utils/getDate";
+import { formatMoney } from "../../utils/formatMoney";
+import { getCurrentDateFormatted } from "../../utils/getDate"
 
 // Create styles
 const styles = StyleSheet.create({
@@ -127,28 +127,32 @@ const styles = StyleSheet.create({
 	footerText: {
 		fontSize: 12,
 		marginBottom: 5,
-	},
+	}
 });
 
-export const InvoicePDF = ({ invoiceNumber, amount }) => (
-	<Document>
-		<Page size="LETTER" style={styles.page}>
+export const InvoicePDF = (props) => {
+	const { invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription } = props
+	return (
+
+		<Document>
+		<Page size="LETTER" style={styles.page} data-testid='document'>
 			{/* Header */}
 			<View style={styles.header}>
 				<View style={styles.leftHeader}>
 					<View style={styles.leftHeaderContents}>
 						<View style={styles.box}>
-							<Text style={styles.name}>JORDAN DEVANEY</Text>
-							<Text style={styles.subtitle}>Full Stack Web Developer</Text>
+							<Text style={styles.name}>{name}</Text>
+								<Text style={styles.subtitle}>{jobTitle}</Text>
 						</View>
 						<View style={styles.box}>
 							<Text style={styles.contactLabel}>Street Address</Text>
-							<Text style={styles.contactText}>Whitmore Lake, MI</Text>
-							<Text style={styles.contactText}>810.772.0086</Text>
+								<Text style={styles.contactText}>{address}</Text>
+								<Text style={styles.contactText}>{addressCity}, {addressZip}</Text>
+								<Text style={styles.contactText}>{phone}</Text>
 						</View>
 						<View style={styles.box}>
 							<Text style={styles.billToLabel}>TO</Text>
-							<Text style={styles.billToText}>AG-USA LLC</Text>
+							<Text style={styles.billToText}>{to}</Text>
 							<Text style={styles.billToText}>119 PALMETTO</Text>
 							<Text style={styles.billToText}>ROAD</Text>
 							<Text style={styles.billToText}>TYRONE, GA 30290</Text>
@@ -170,7 +174,7 @@ export const InvoicePDF = ({ invoiceNumber, amount }) => (
 							</Text>
 						</View>
 						<View style={styles.box}>
-							<Text style={styles.serviceText}>FOR WEB DEVELOPMENT &</Text>
+							<Text style={styles.serviceText}>FOR {jobDescription} &</Text>
 							<Text style={styles.serviceText}>REGISTRATION</Text>
 						</View>
 					</View>
@@ -187,7 +191,7 @@ export const InvoicePDF = ({ invoiceNumber, amount }) => (
 					<Text style={styles.tableHeaderText}>Amount</Text>
 				</View>
 				<View style={styles.tableRow}>
-					<Text style={styles.description}>Web Development</Text>
+						<Text style={styles.description}>{jobType}</Text>
 					<Text style={styles.date}>{getCurrentDateFormatted()}</Text>
 					<Text style={styles.amount}>{formatMoney(amount)}</Text>
 				</View>
@@ -196,7 +200,7 @@ export const InvoicePDF = ({ invoiceNumber, amount }) => (
 			{/* Payment Instructions */}
 			<View style={styles.paymentInstructions}>
 				<Text style={styles.paymentText}>
-					Make all checks payable to JORDAN DEVANEY
+					Make all checks payable to {name}
 				</Text>
 				<Text style={styles.paymentText}>is due within 30 days.</Text>
 			</View>
@@ -204,13 +208,13 @@ export const InvoicePDF = ({ invoiceNumber, amount }) => (
 			{/* Footer */}
 			<View style={styles.footer}>
 				<Text style={styles.footerText}>
-					If you have any questions concerning this invoice, contact Jordan
-					Devaney at 810.772.0086
+					If you have any questions concerning this invoice, contact {name} at 810.772.0086
 				</Text>
 			</View>
 		</Page>
 	</Document>
-);
+)
+}
 
 // Add default export for better compatibility
 export default InvoicePDF;

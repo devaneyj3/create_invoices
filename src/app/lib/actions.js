@@ -2,64 +2,81 @@
 
 export async function createInvoice(prevState, formData) {
 	try {
-		const invoiceNumber = formData.get("invoiceNumber");
-		const amount = formData.get("amount");
+		// Extract fields
+		const fields = [
+			"invoiceNumber",
+			"amount",
+			"name",
+			"phone",
+			"address",
+			"addressCity",
+			"addressZip",
+			"to",
+			"jobTitle",
+			"jobType",
+			"jobDescription",
+		];
 
-		// Server-side validation
-		if (!invoiceNumber || !amount) {
-			return {
-				error: "Please fill in all fields",
-				success: false,
-				invoiceNumber: "",
-				amount: "",
-			};
+		const data = Object.fromEntries(
+			fields.map((key) => [key, formData.get(key)])
+		);
+
+		// Basic validation
+		if (!data.invoiceNumber || !data.amount) {
+			return errorResponse("Please fill in all fields");
 		}
 
-		// Validate invoice number format
-		if (!/^[A-Za-z0-9-]{1,20}$/.test(invoiceNumber)) {
-			return {
-				error:
-					"Invoice number must be 1-20 characters (letters, numbers, hyphens only)",
-				success: false,
-				invoiceNumber: "",
-				amount: "",
-			};
+		if (!/^[A-Za-z0-9-]{1,20}$/.test(data.invoiceNumber)) {
+			return errorResponse(
+				"Invoice number must be 1–20 characters (letters, numbers, hyphens only)"
+			);
 		}
 
-		// Validate amount
-		const numericAmount = parseFloat(amount);
+		const numericAmount = parseFloat(data.amount);
 		if (isNaN(numericAmount) || numericAmount <= 0) {
-			return {
-				error: "Amount must be a positive number",
-				success: false,
-				invoiceNumber: "",
-				amount: "",
-			};
+			return errorResponse("Amount must be a positive number");
+		}
+		if (numericAmount > 1_000_000) {
+			return errorResponse("Amount cannot exceed $1,000,000");
 		}
 
-		if (numericAmount > 1000000) {
-			return {
-				error: "Amount cannot exceed $1,000,000",
-				success: false,
-				invoiceNumber: "",
-				amount: "",
-			};
-		}
-
-		// Return success with validated data
+		// Success response
 		return {
 			success: true,
-			invoiceNumber,
-			amount,
 			error: "",
+			invoiceNumber: data.invoiceNumber,
+			name: data.name,
+			phone: data.phone,
+			address: data.address,
+			addressCity: data.addressCity,
+			addressZip: data.addressZip,
+			to: data.to,
+			jobTitle: data.jobTitle,
+			jobType: data.jobType,
+			jobDescription: data.jobDescription,
+			amount: data.amount,
 		};
 	} catch (error) {
 		console.error("Error creating invoice:", error);
-		return {
-			error: "Failed to process invoice. Please try again.",
-			success: false,
-			invoiceNumber: "",
-			amount: "",
-		};
+		return errorResponse("Failed to process invoice. Please try again.");
 	}
+}
+
+// 🔧 Reusable helper for returning consistent error responses
+function errorResponse(message) {
+	return {
+		success: false,
+		error: message,
+		invoiceNumber: "",
+		name: "",
+		phone: data.phone,
+		address: data.address,
+		addressCity: data.addressCity,
+		addressZip: data.addressZip,
+		to: data.to,
+		jobTitle: data.jobTitle,
+		jobType: data.jobType,
+		jobDescription: data.jobDescription,
+		amount: "",
+	};
 }

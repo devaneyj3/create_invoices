@@ -1,8 +1,7 @@
-// src/app/page.js
 "use client";
-import React, { useActionState, useState } from "react";
-import DownloadPdfButton from "../DownloadPdfButton";
-import PDFPreview from "../PDFPreview";
+import React, { useActionState } from "react";
+import DownloadPdfButton from "../DownloadPDFButton/DownloadPdfButton";
+import PDFPreview from "../PDFPreview/PDFPreview";
 import styles from "./Form.module.scss";
 import { createInvoice } from "../../app/lib/actions";
 
@@ -10,64 +9,81 @@ export default function Form() {
 	const [state, action, pending] = useActionState(createInvoice, {
 		invoiceNumber: "",
 		amount: "",
+		name: "",
+		phone: "",
+		address: "",
+		addressCity: "",
+		addressZip: "",
+		to: "",
+		jobTitle: "",
+		jobType: "",
+		jobDescription: "",
 		error: "",
 		success: false,
 	});
+
+	// Check if all required fields are filled
+	const allFieldsFilled = [
+		"invoiceNumber",
+		"amount",
+		"name",
+		"phone",
+		"address",
+		"addressCity",
+		"addressZip",
+		"to",
+		"jobTitle",
+		"jobType",
+		"jobDescription",
+	].every((key) => !!state[key]);
 
 	return (
 		<div className={styles.container}>
 			<h1 className={styles.title}>Make your own invoice</h1>
 
 			<form action={action}>
+				{[
+					{ name: "invoiceNumber", label: "Invoice Number", type: "text", placeholder: "Enter invoice number", required: true },
+					{ name: "name", label: "Name", type: "text", placeholder: "Enter your name", required: true },
+					{ name: "phone", label: "Phone", type: "tel", placeholder: "Enter your phone number" },
+					{ name: "address", label: "Address", type: "text", placeholder: "Enter your address" },
+					{ name: "addressCity", label: "City", type: "text", placeholder: "Enter your city" },
+					{ name: "addressZip", label: "Zip", type: "number", placeholder: "Enter your zip" },
+					{ name: "to", label: "To", type: "text", placeholder: "Invoice to (client name)" },
+					{ name: "jobTitle", label: "Job Title", type: "text", placeholder: "Enter job title" },
+					{ name: "jobType", label: "Job Type", type: "text", placeholder: "Enter job type" },
+					{ name: "amount", label: "Amount", type: "number", placeholder: "Enter amount", required: true, min: 1, max: 100000000, step: 0.01 },
+				].map(({ name, label, ...props }) => (
+					<div key={name} className={styles.formGroup}>
+						<label htmlFor={name} className={styles.label}>{label}</label>
+						<input name={name} className={styles.input} {...props} />
+					</div>
+				))}
+
 				<div className={styles.formGroup}>
-					<label htmlFor="invoiceNumber" className={styles.label}>
-						Invoice Number
-					</label>
-					<input
-						type="text"
-						name="invoiceNumber"
-						className={styles.input}
-						placeholder="Enter invoice number"
-						required
+					<label htmlFor="jobDescription" className={styles.label}>Job Description</label>
+					<textarea
+						name="jobDescription"
+						className={styles.textarea}
+						placeholder="Describe the job or work completed"
+						rows={4}
 					/>
 				</div>
 
-				<div className={styles.formGroup}>
-					<label htmlFor="amount" className={styles.label}>
-						Amount
-					</label>
-					<input
-						type="number"
-						name="amount"
-						className={styles.input}
-						placeholder="Enter amount"
-						max={100000000}
-						min={1}
-						step={0.01}
-						required
-					/>
-				</div>
 				<button
 					type="submit"
 					disabled={pending}
-					className={styles.submitButton}>
+					className={styles.submitButton}
+				>
 					{pending ? "Generating..." : "Generate Invoice"}
 				</button>
 
-				<div className={styles.buttonContainer}>
-					{state.invoiceNumber && state.amount && (
-						<>
-							<PDFPreview
-								invoiceNumber={state.invoiceNumber}
-								amount={state.amount}
-							/>
-							<DownloadPdfButton
-								invoiceNumber={state.invoiceNumber}
-								amount={state.amount}
-							/>
-						</>
-					)}
-				</div>
+				{allFieldsFilled && (
+					<div className={styles.buttonContainer}>
+						<PDFPreview {...state} />
+						<DownloadPdfButton {...state} />
+					</div>
+				)}
 			</form>
 		</div>
 	);

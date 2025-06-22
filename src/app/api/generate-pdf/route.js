@@ -1,16 +1,42 @@
 import { NextResponse } from "next/server";
 import { pdf } from "@react-pdf/renderer";
-import { InvoicePDF } from "@/components/InvoicePDF.jsx";
-import { getCurrentDateFormatted } from "@/utils/getDate";
+import { InvoicePDF } from "../../../components/InvoicePDF/InvoicePDF";
+import { getCurrentDateFormatted } from "../../../utils/getDate";
 
 export async function POST(request) {
 	try {
-		const { invoiceNumber, amount } = await request.json();
+		const {
+			invoiceNumber,
+			amount,
+			name,
+			phone,
+			address,
+			addressCity,
+			addressZip,
+			to,
+			jobTitle,
+			jobType,
+			jobDescription,
+		} = await request.json();
+
+		const state = {
+			invoiceNumber,
+			amount,
+			name,
+			phone,
+			address,
+			addressCity,
+			addressZip,
+			to,
+			jobTitle,
+			jobType,
+			jobDescription,
+		};
 
 		// Validate inputs
-		if (!invoiceNumber || !amount) {
+		if (!invoiceNumber || !amount || !name) {
 			return NextResponse.json(
-				{ error: "Invoice number and amount are required" },
+				{ error: "Invoice number, name and amount are required" },
 				{ status: 400 }
 			);
 		}
@@ -25,9 +51,7 @@ export async function POST(request) {
 		}
 
 		// Generate PDF
-		const blob = await pdf(
-			<InvoicePDF invoiceNumber={invoiceNumber} amount={amount} />
-		).toBlob();
+		const blob = await pdf(<InvoicePDF {...state} />).toBlob();
 
 		// Convert to buffer
 		const arrayBuffer = await blob.arrayBuffer();

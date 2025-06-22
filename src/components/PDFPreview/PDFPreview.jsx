@@ -1,11 +1,13 @@
 // src/components/PDFPreview.js
 import { useState } from "react";
-import styles from "./PDFPreview.module.scss";
+import styles from "./PDFPreview.module.scss"
 
-export default function PDFPreview({ invoiceNumber, amount }) {
+export default function PDFPreview(props) {
 	const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 	const [pdfUrl, setPdfUrl] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+
+		const { invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription } = props
 
 	const openPreview = async () => {
 		setIsLoading(true);
@@ -15,7 +17,7 @@ export default function PDFPreview({ invoiceNumber, amount }) {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ invoiceNumber, amount }),
+				body: JSON.stringify(({ invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription })),
 			});
 
 			if (!response.ok) {
@@ -47,6 +49,7 @@ export default function PDFPreview({ invoiceNumber, amount }) {
 			<button
 				onClick={openPreview}
 				disabled={isLoading}
+				data-testid="loading"
 				className={styles.previewButton}>
 				{isLoading ? "Loading..." : "Preview Invoice"}
 			</button>
