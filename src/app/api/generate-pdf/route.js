@@ -5,36 +5,10 @@ import { getCurrentDateFormatted } from "../../../utils/getDate";
 
 export async function POST(request) {
 	try {
-		const {
-			invoiceNumber,
-			amount,
-			name,
-			phone,
-			address,
-			addressCity,
-			addressZip,
-			to,
-			jobTitle,
-			jobType,
-			jobDescription,
-		} = await request.json();
-
-		const state = {
-			invoiceNumber,
-			amount,
-			name,
-			phone,
-			address,
-			addressCity,
-			addressZip,
-			to,
-			jobTitle,
-			jobType,
-			jobDescription,
-		};
+		const formState = await request.json();
 
 		// Validate inputs
-		if (!invoiceNumber || !amount || !name) {
+		if (!formState.invoiceNumber || !formState.amount || !formState.name) {
 			return NextResponse.json(
 				{ error: "Invoice number, name and amount are required" },
 				{ status: 400 }
@@ -42,7 +16,7 @@ export async function POST(request) {
 		}
 
 		// Additional validation
-		const numericAmount = parseFloat(amount);
+		const numericAmount = parseFloat(formState.amount);
 		if (isNaN(numericAmount) || numericAmount <= 0) {
 			return NextResponse.json(
 				{ error: "Amount must be a positive number" },
@@ -51,7 +25,7 @@ export async function POST(request) {
 		}
 
 		// Generate PDF
-		const blob = await pdf(<InvoicePDF {...state} />).toBlob();
+		const blob = await pdf(<InvoicePDF {...formState} />).toBlob();
 
 		// Convert to buffer
 		const arrayBuffer = await blob.arrayBuffer();
@@ -62,7 +36,9 @@ export async function POST(request) {
 			status: 200,
 			headers: {
 				"Content-Type": "application/pdf",
-				"Content-Disposition": `attachment; filename="invoice_${invoiceNumber}_${getCurrentDateFormatted()}.pdf"`,
+				"Content-Disposition": `attachment; filename="invoice_${
+					formState.invoiceNumber
+				}_${getCurrentDateFormatted()}.pdf"`,
 				"Cache-Control": "public, max-age=3600", // Cache for 1 hour
 				"Content-Length": buffer.length.toString(),
 			},

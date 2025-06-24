@@ -1,11 +1,16 @@
 "use client";
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import DownloadPdfButton from "../DownloadPDFButton/DownloadPdfButton";
 import PDFPreview from "../PDFPreview/PDFPreview";
 import styles from "./Form.module.scss";
 import { createInvoice } from "../../app/lib/actions";
+import { useInvoiceForm } from "../../context/InvoiceFormContext";
 
 export default function Form() {
+
+	const { formState, setFormState } = useInvoiceForm()
+	//put form data emelents into an array to look over
+
 	const [state, action, pending] = useActionState(createInvoice, {
 		invoiceNumber: "",
 		amount: "",
@@ -21,6 +26,15 @@ export default function Form() {
 		error: "",
 		success: false,
 	});
+
+useEffect(() => {
+	if (state) {
+		setFormState((prev) => ({
+			...prev,
+			...state,
+		}));
+	}
+}, [state]);
 
 	// Check if all required fields are filled
 	const allFieldsFilled = [
@@ -81,7 +95,7 @@ export default function Form() {
 				{allFieldsFilled && (
 					<div className={styles.buttonContainer}>
 						<PDFPreview {...state} />
-						<DownloadPdfButton {...state} />
+						<DownloadPdfButton/>
 					</div>
 				)}
 			</form>

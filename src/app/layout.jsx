@@ -1,3 +1,4 @@
+import { InvoiceFormProvider } from "@/context/InvoiceFormContext";
 import "./globals.css";
 
 export const metadata = {
@@ -8,7 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<InvoiceFormProvider>
+				<body>{children}</body>
+			</InvoiceFormProvider>
 		</html>
 	);
 }

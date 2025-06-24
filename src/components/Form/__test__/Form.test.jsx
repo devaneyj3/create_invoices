@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '../../../test-utils/testing_provider';
 import Form from "../Form";
 import { describe, expect, test, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
