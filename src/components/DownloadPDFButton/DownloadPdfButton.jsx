@@ -17,14 +17,8 @@ export default function DownloadPdfButton() {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
-    "X-Content-Type-Options": "nosniff",
-    "X-Frame-Options": "DENY",
-  },
+					"Accept": "application/json", 
+    			"X-Requested-With": "XMLHttpRequest"
 				},
 				body: JSON.stringify(formState),
 			});
