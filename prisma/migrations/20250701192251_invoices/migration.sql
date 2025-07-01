@@ -32,7 +32,11 @@ CREATE TABLE "Session" (
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT,
+    "address" TEXT,
+    "city" TEXT,
+    "zip" TEXT,
     "email" TEXT,
+    "phone" INTEGER,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
 
