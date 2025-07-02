@@ -1,5 +1,6 @@
 "use server";
 
+import { getUser } from "@/lib/getUser";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -56,30 +57,29 @@ export async function createInvoice(prevState, formData) {
 	}
 }
 
-export async function updateProfile(prevState, formData, id) {
+export async function updateProfile(prevState, formData) {
 	try {
-		const fields = ["phone", "address", "addressCity", "addressZip"];
+		const fields = [
+			"phone",
+			"address",
+			"addressCity",
+			"addressState",
+			"addressZip",
+		];
 		const data = Object.fromEntries(
 			fields.map((key) => [key, formData.get(key)])
 		);
 
 		// Basic validation
-		if (!data.phone || !data.address || !data.addressCity || !data.addressZip) {
+		if (
+			!data.phone ||
+			!data.address ||
+			!data.addressCity ||
+			!data.addressState ||
+			!data.addressZip
+		) {
 			return profileErrorResponse("Please fill in all fields", data);
 		}
-
-		// You can add more validation here if needed
-
-		// TODO: UPDATE PROFILE IN DATABASE
-
-		await prisma.user.update({
-			where: {
-				id: user.id,
-			},
-			data: {
-				phone: data.phone,
-			},
-		});
 
 		return {
 			success: true,
@@ -116,6 +116,7 @@ function profileErrorResponse(message, data) {
 		phone: data.phone || "",
 		address: data.address || "",
 		addressCity: data.addressCity || "",
+		addressCity: data.addressState || "",
 		addressZip: data.addressZip || "",
 	};
 }

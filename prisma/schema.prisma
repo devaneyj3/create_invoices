@@ -48,9 +48,10 @@ datasource db {
       name          String?
       address          String?
       city          String?
+      state         String?
       zip          String?
       email         String?   @unique
-      phone          Int?
+      phone          String?
       emailVerified DateTime?
       image         String?
       accounts      Account[]

@@ -1,4 +1,4 @@
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { updateProfile } from "../../app/lib/actions";
 import styles from "./profile.module.scss";
 import { useAuth } from "@/context/authContext";
@@ -8,12 +8,30 @@ export default function Profile() {
 		phone: "",
 		address: "",
 		addressCity: "",
+		addressState: "",
 		addressZip: "",
 		error: "",
 		success: false,
 	});
-	const { signedInUser } = useAuth();
-	console.log(signedInUser);
+	const { signedInUser, update } = useAuth();
+
+	useEffect(() => {
+		if (state && signedInUser) {
+			const updateData = async () => {
+				const data = await update(
+					signedInUser.id,
+					state.address,
+					state.addressCity,
+					state.addressState,
+					state.addressZip,
+					state.phone
+				);
+				return data;
+			};
+			updateData();
+		}
+	}, [state, signedInUser]);
+
 	return (
 		<div className={styles.container}>
 			<h1 className={styles.title}>Complete your profile</h1>
@@ -51,6 +69,16 @@ export default function Profile() {
 						type="text"
 						placeholder="Enter your city"
 						defaultValue={state.addressCity}
+						className={styles.input}
+					/>
+					<label htmlFor="addressState" className={styles.label}>
+						City
+					</label>
+					<input
+						name="addressState"
+						type="text"
+						placeholder="Enter your state"
+						defaultValue={state.addressState}
 						className={styles.input}
 					/>
 				</div>

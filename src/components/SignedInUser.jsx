@@ -4,27 +4,23 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import styles from "./SignedInUser.module.scss";
 import { useEffect } from 'react';
 import { useAuth } from "@/context/authContext";
-import { PrismaClient } from '@prisma/client';
-import { getUser } from '@/lib/getUser';
 
 export default function SignedInUser() {
   const { data: session, status } = useSession();
-  const { setSignedInUser } = useAuth();
-
+  const { setSignedInUser, fetchUser } = useAuth();
 
   useEffect(() => {
-    const getData = async() => {
-
-      if (session?.user) {
-        const person = await getUser(session.user.email)
-        console.log(person)
-        setSignedInUser(session.user);
+    async function getUserData() {
+      if (session?.user?.email) {
+        const user = await fetchUser(session.user.email);
+        setSignedInUser(user);
       } else {
         setSignedInUser(null);
       }
     }
-    getData()
+    getUserData();
   }, [session, setSignedInUser]);
+
   if (session) {
     return (
       <div className={styles.container}>
