@@ -1,7 +1,7 @@
 import React, { useActionState, useEffect } from "react";
 import { updateProfile } from "../../app/lib/actions";
 import styles from "./profile.module.scss";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from '../../context/authContext'
 
 export default function Profile() {
 	const [state, action, pending] = useActionState(updateProfile, {
@@ -72,7 +72,7 @@ export default function Profile() {
 						className={styles.input}
 					/>
 					<label htmlFor="addressState" className={styles.label}>
-						City
+						State
 					</label>
 					<input
 						name="addressState"
