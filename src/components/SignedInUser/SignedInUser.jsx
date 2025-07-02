@@ -3,11 +3,11 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import styles from "./SignedInUser.module.scss";
 import { useEffect } from 'react';
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "../../context/authContext"
 
 export default function SignedInUser() {
   const { data: session, status } = useSession();
-  const { setSignedInUser, fetchUser } = useAuth();
+  const { signedInUser,setSignedInUser, fetchUser } = useAuth();
 
   useEffect(() => {
     async function getUserData() {
@@ -20,14 +20,19 @@ export default function SignedInUser() {
     }
     getUserData();
   }, [session, setSignedInUser]);
+  	console.log('signed in user is,',signedInUser)
 
   if (session) {
     return (
       <div className={styles.container}>
-        <h2 className={styles.title}>Welcome, {session?.user?.name}!</h2>
-        <p className={styles.email}>Email: {session?.user?.email}</p>
-        <p className={styles.signedInAs}>Signed in as: {session?.user?.email}</p>
-        <button className={styles.button} onClick={() => signOut()}>Sign out</button>
+        <h2 className={styles.title}>Welcome, {signedInUser?.name}!</h2>
+        <p className={styles.email}>Email: {signedInUser?.email}</p>
+        <p className={styles.email}>Phone: {signedInUser?.phone}</p>
+        <p className={styles.email}>Address: {signedInUser?.address}</p>
+        <p className={styles.email}>City: {signedInUser?.city}</p>
+        <p className={styles.email}>State: {signedInUser?.state}</p>
+        <p className={styles.email}>Zip: {signedInUser?.zip}</p>
+        <button className={styles.button} onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
       </div>
     )
   }

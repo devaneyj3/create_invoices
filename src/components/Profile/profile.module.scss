@@ -1,13 +1,8 @@
 .container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 2.5rem 2rem;
+
+  padding: 3rem;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  max-width: 2000px;
   background: rgba(255,255,255,0.95);
   border-radius: 20px;
   box-shadow: 0 12px 48px 0 rgba(102,126,234,0.12), 0 1.5px 8px 0 rgba(240,147,251,0.10);

@@ -1,10 +1,22 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export const authContext = createContext({});
 
+export function profileComplete(user) {
+	return !!(
+		user?.address &&
+		user?.city &&
+		user?.state &&
+		user?.zip &&
+		user?.phone
+	);
+}
+
 export const AuthProvider = ({ children, overrides = {} }) => {
 	const [signedInUser, setSignedInUser] = useState(null);
+	const { data: session, status } = useSession();
 
 	async function fetchUser(email) {
 		const res = await fetch("/api/user", {
@@ -24,6 +36,18 @@ export const AuthProvider = ({ children, overrides = {} }) => {
 		const user = await res.json();
 		return user;
 	}
+
+	useEffect(() => {
+		async function fetchUserData() {
+			if (session?.user?.email) {
+				const user = await fetchUser(session.user.email);
+				setSignedInUser(user);
+			} else {
+				setSignedInUser(null);
+			}
+		}
+		fetchUserData();
+	}, [session]);
 
 	return (
 		<authContext.Provider
