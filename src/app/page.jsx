@@ -1,4 +1,5 @@
 'use client'
+
 import styles from "./Landing.module.scss";
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';

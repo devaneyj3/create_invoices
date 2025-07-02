@@ -49,7 +49,8 @@ export default function ProfileContainer() {
 			router.push('/dashboard')
 		}
 	}, [state, setSignedInUser]);
-
+	
+	
 
 	return (
 		<div className={styles.container}>
