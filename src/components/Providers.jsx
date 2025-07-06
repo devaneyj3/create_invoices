@@ -8,9 +8,9 @@ export default function Providers({ children }) {
   return (
     <SessionProvider>
       <AuthProvider>
-      <InvoiceFormProvider>
-        {children}
-      </InvoiceFormProvider>
+        <InvoiceFormProvider>
+          {children}
+        </InvoiceFormProvider>
       </AuthProvider>
     </SessionProvider>
   );

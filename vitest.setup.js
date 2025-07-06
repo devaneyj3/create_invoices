@@ -20,6 +20,7 @@ vi.mock("next-auth/react", () => ({
 	useSession: () => ({
 		data: {
 			user: {
+				id: "test-user-id",
 				name: "Test User",
 				email: "test@example.com",
 				phone: "8888888888",
@@ -27,6 +28,7 @@ vi.mock("next-auth/react", () => ({
 				city: "Chicago",
 				state: "IL",
 				zip: "48402",
+				profileComplete: true,
 			},
 		},
 		status: "authenticated",

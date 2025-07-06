@@ -1,27 +1,25 @@
 'use client'
 
+import { useAuth } from "@/context/authContext";
 import styles from "./Landing.module.scss";
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import Profile from "@/components/Profile/profile";
-
 
 export default function Home() {
 	const router = useRouter();
 	const { data: session, status } = useSession();
-	
+	const { signedInUser } = useAuth()
+
 	useEffect(() => {
-		if (status === 'authenticated') {
-			router.replace('/');
+		if (status === 'authenticated' && session?.user?.profileComplete) {
+			router.replace('/dashboard');
+		} else if (status === 'authenticated' && !session?.user?.profileComplete) {
+			router.replace('/profile');
 		}
-  }, [status, router]);
+	}, [status, session]);
 	
 	if (status === 'loading') return <div>Loading...</div>;
-
-	if(session) {
-		return <Profile/>
-	}
 
 	return (
 		<div className={styles.container}>

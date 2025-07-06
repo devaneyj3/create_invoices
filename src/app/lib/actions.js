@@ -1,10 +1,5 @@
 "use server";
 
-import { getUser } from "../../lib/getUser";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
 export async function createInvoice(prevState, formData) {
 	try {
 		// Extract fields

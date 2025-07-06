@@ -1,10 +1,10 @@
 import React, { useActionState, useEffect } from "react";
 import { updateProfile } from "../../app/lib/actions";
 import styles from "./profile.module.scss";
-import { useAuth } from '../../context/authContext'
 import { useRouter } from "next/navigation";
 import { useSession } from 'next-auth/react';
 import ProfileForm from "./ProfileForm";
+import { useAuth } from "@/context/authContext";
 
 export default function ProfileContainer() {
 	const [state, action, pending] = useActionState(updateProfile, {
@@ -17,40 +17,21 @@ export default function ProfileContainer() {
 		success: false,
 	});
 	const router = useRouter();
-	const { signedInUser, update, setSignedInUser, fetchUser } = useAuth();
 	const { data: session } = useSession();
+	const { update } = useAuth() 
 
 	useEffect(() => {
-		async function getUserData() {
-			if (session?.user?.email) {
-				const user = await fetchUser(session.user.email);
-				setSignedInUser(user);
-			} else {
-				setSignedInUser(null);
-			}
-		}
-		getUserData();
-	}, []);
-
-	useEffect(() => {
-		if (state && signedInUser) {
+		if (state && !session?.user?.profileComplete) {
 			const updateData = async () => {
-				const data = await update(
-					signedInUser.id,
-					state.address,
-					state.addressCity,
-					state.addressState,
-					state.addressZip,
-					state.phone
-				);
-				setSignedInUser({ ...signedInUser, data });
+				await update(session?.user?.id, state.address, state.addressCity, state.addressState, state.addressZip, state.phone)
 			};
 			updateData();
-			router.push('/dashboard')
+			if (state?.success) {
+				
+				router.replace('/dashboard')
+			}
 		}
-	}, [state, setSignedInUser]);
-	
-	
+	}, [state, session?.user?.id]);
 
 	return (
 		<div className={styles.container}>

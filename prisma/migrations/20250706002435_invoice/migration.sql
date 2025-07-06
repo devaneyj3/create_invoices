@@ -34,10 +34,12 @@ CREATE TABLE "User" (
     "name" TEXT,
     "address" TEXT,
     "city" TEXT,
+    "state" TEXT,
     "zip" TEXT,
     "email" TEXT,
-    "phone" INTEGER,
+    "phone" TEXT,
     "emailVerified" TIMESTAMP(3),
+    "profileComplete" BOOLEAN NOT NULL,
     "image" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

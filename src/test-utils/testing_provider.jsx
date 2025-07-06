@@ -4,19 +4,15 @@ import {InvoiceFormProvider } from '../context/InvoiceFormContext'
 import { SessionProvider } from 'next-auth/react'
 import { AuthProvider } from '../context/authContext'
 
-
 const AllTheProviders = ({children}) => {
   return (
       <SessionProvider>
-      <AuthProvider>
-
-      <InvoiceFormProvider>
-        
-          {children}
-        </InvoiceFormProvider>
-      </AuthProvider>
+        <AuthProvider>
+          <InvoiceFormProvider>
+            {children}
+          </InvoiceFormProvider>
+        </AuthProvider>
       </SessionProvider>
-        
     )
 }
 

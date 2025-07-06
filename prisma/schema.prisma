@@ -46,12 +46,12 @@ datasource db {
     model User {
       id            String    @id @default(cuid())
       name          String?
-      address          String?
+      address       String?
       city          String?
       state         String?
-      zip          String?
+      zip           String?
       email         String?   @unique
-      phone          String?
+      phone         String?
       emailVerified DateTime?
       image         String?
       accounts      Account[]
