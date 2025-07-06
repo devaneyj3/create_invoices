@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 });
 
 export const InvoicePDF = (props) => {
-	const { invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription } = props
+	const { invoiceNumber, amount, name, phone, address, city, state, zip, to, jobTitle, jobType, jobDescription } = props
 	return (
 
 		<Document>
@@ -147,7 +147,7 @@ export const InvoicePDF = (props) => {
 						<View style={styles.box}>
 							<Text style={styles.contactLabel}>Street Address</Text>
 								<Text style={styles.contactText}>{address}</Text>
-								<Text style={styles.contactText}>{addressCity}, {addressZip}</Text>
+								<Text style={styles.contactText}>{city}, {state} {zip}</Text>
 								<Text style={styles.contactText}>{phone}</Text>
 						</View>
 						<View style={styles.box}>
@@ -174,8 +174,7 @@ export const InvoicePDF = (props) => {
 							</Text>
 						</View>
 						<View style={styles.box}>
-							<Text style={styles.serviceText}>FOR {jobDescription} &</Text>
-							<Text style={styles.serviceText}>REGISTRATION</Text>
+							<Text style={styles.serviceText}>FOR {jobDescription}</Text>
 						</View>
 					</View>
 				</View>
@@ -208,7 +207,7 @@ export const InvoicePDF = (props) => {
 			{/* Footer */}
 			<View style={styles.footer}>
 				<Text style={styles.footerText}>
-					If you have any questions concerning this invoice, contact {name} at 810.772.0086
+					If you have any questions concerning this invoice, contact {name} at {phone}
 				</Text>
 			</View>
 		</Page>

@@ -7,8 +7,6 @@ export default function PDFPreview(props) {
 	const [pdfUrl, setPdfUrl] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
-		const { invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription } = props
-
 	const openPreview = async () => {
 		setIsLoading(true);
 		try {
@@ -17,7 +15,7 @@ export default function PDFPreview(props) {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(({ invoiceNumber, amount, name, phone, address, addressCity, addressZip, to, jobTitle, jobType, jobDescription })),
+				body: JSON.stringify(props),
 			});
 
 			if (!response.ok) {

@@ -6,8 +6,7 @@ import { useAuth } from '@/context/authContext';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
-  console.log('SignedInUserComponent',signedInUser)
-
+  console.log(signedInUser)
   if (signedInUser) {
     return (
       <div className={styles.container}>

@@ -1,15 +1,21 @@
 "use client";
-import React, { useActionState, useEffect } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import DownloadPdfButton from "../DownloadPDFButton/DownloadPdfButton";
 import PDFPreview from "../PDFPreview/PDFPreview";
 import styles from "./Form.module.scss";
 import { createInvoice } from "../../app/lib/actions";
 import { useInvoiceForm } from "../../context/InvoiceFormContext";
+import { useAuth } from "@/context/authContext";
 
 export default function Form() {
 
 	const { formState, setFormState } = useInvoiceForm()
 	//put form data emelents into an array to look over
+
+	const { signedInUser } = useAuth()
+	const [invoiceData, setInvoiceData] = useState()
+	console.log(signedInUser)
+	
 
 	const [state, action, pending] = useActionState(createInvoice, {
 		invoiceNumber: "",
@@ -28,6 +34,10 @@ useEffect(() => {
 			...prev,
 			...state,
 		}));
+		setInvoiceData((prev) => ({
+			...signedInUser,
+			...state
+		}))
 	}
 }, [state]);
 
@@ -40,6 +50,7 @@ useEffect(() => {
 		"jobType",
 		"jobDescription",
 	].every((key) => !!state[key]);
+
 
 	return (
 		<>
@@ -82,8 +93,8 @@ useEffect(() => {
 
 						{allFieldsFilled && (
 							<div className={styles.buttonContainer}>
-								<PDFPreview {...state} />
-								<DownloadPdfButton/>
+								<PDFPreview {...invoiceData} />
+								<DownloadPdfButton {...invoiceData} />
 							</div>
 						)}
 					</form>

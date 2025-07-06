@@ -7,11 +7,6 @@ export const InvoiceFormProvider = ({ children, overrides = {} }) => {
   const [formState, setFormState] = useState({
     invoiceNumber: "",
     amount: "",
-    name: "",
-    phone: "",
-    address: "",
-    addressCity: "",
-    addressZip: "",
     to: "",
     jobTitle: "",
     jobType: "",

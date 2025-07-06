@@ -7,14 +7,6 @@ export async function POST(request) {
 	try {
 		const formState = await request.json();
 
-		const headers = new Headers({
-			"Content-Type": "application/json",
-			"Referrer-Policy": "strict-origin-when-cross-origin",
-			"X-Content-Type-Options": "nosniff",
-			"X-Frame-Options": "DENY",
-			"Content-Security-Policy": "default-src 'self'",
-		});
-
 		// Validate inputs
 		if (!formState.invoiceNumber || !formState.amount || !formState.name) {
 			return NextResponse.json(
@@ -49,7 +41,6 @@ export async function POST(request) {
 				}_${getCurrentDateFormatted()}.pdf"`,
 				"Cache-Control": "public, max-age=3600", // Cache for 1 hour
 				"Content-Length": buffer.length.toString(),
-				...Object.fromEntries(headers.entries()),
 			},
 		});
 	} catch (error) {

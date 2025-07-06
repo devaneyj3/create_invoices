@@ -3,13 +3,10 @@ import { useState } from "react";
 
 import styles from "./DownloadPdf.module.scss";
 import { getCurrentDateFormatted } from "../../utils/getDate";
-import { useInvoiceForm } from "../../context/InvoiceFormContext"
 
-export default function DownloadPdfButton() {
+export default function DownloadPdfButton(props) {
 	const [isGenerating, setIsGenerating] = useState(false);
-	const {formState} = useInvoiceForm()
 
-	
 	const downloadPdf = async () => {
 		setIsGenerating(true);
 		try {
@@ -20,7 +17,7 @@ export default function DownloadPdfButton() {
 					"Accept": "application/json", 
     			"X-Requested-With": "XMLHttpRequest"
 				},
-				body: JSON.stringify(formState),
+				body: JSON.stringify(props),
 			});
 	if (!response.ok) {
 				throw new Error("Failed to generate PDF");
