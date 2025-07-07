@@ -42,6 +42,16 @@ datasource db {
       expires      DateTime
       user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     }
+    model Company {
+      id          String   @id @default(cuid())
+      companyName String
+      companyAddress String
+      companyCity String
+      companyState String
+      companyZip String
+      userId      String
+      user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    }
 
     model User {
       id            String    @id @default(cuid())
@@ -56,6 +66,7 @@ datasource db {
       image         String?
       accounts      Account[]
       sessions      Session[]
+      companies     Company[]
     }
 
     model VerificationToken {
