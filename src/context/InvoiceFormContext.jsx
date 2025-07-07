@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
 
 export const InvoiceForm = createContext({});
 
@@ -15,13 +15,14 @@ export const InvoiceFormProvider = ({ children, overrides = {} }) => {
     error: ""
   });
 
+  // Memoize the context value to prevent infinite re-renders
+  const contextValue = useMemo(() => ({
+    formState,
+    setFormState
+  }), [formState]);
   
   return (
-    <InvoiceForm.Provider
-      value={{
-        formState,
-        setFormState
-      }}>
+    <InvoiceForm.Provider value={contextValue}>
       {children}
     </InvoiceForm.Provider>
   );

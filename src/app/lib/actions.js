@@ -1,5 +1,10 @@
 "use server";
 
+import { PrismaClient } from "@prisma/client";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+const prisma = new PrismaClient();
+
 export async function createInvoice(prevState, formData) {
 	try {
 		// Extract fields
@@ -88,6 +93,95 @@ export async function updateProfile(prevState, formData) {
 			{}
 		);
 	}
+}
+
+export async function createCompany(prevState, formData) {
+	const session = await getServerSession(authOptions);
+	try {
+		// Extract and sanitize fields
+		const fields = [
+			"companyName",
+			"companyAddress",
+			"companyCity",
+			"companyState",
+			"companyZip",
+		];
+		const data = Object.fromEntries(
+			fields.map((key) => [key, sanitizeInput(formData.get(key))])
+		);
+
+		// Validation
+		if (
+			!data.companyName ||
+			!data.companyAddress ||
+			!data.companyCity ||
+			!data.companyState ||
+			!data.companyZip
+		) {
+			return companyErrorResponse("Please fill in all fields", data);
+		}
+		if (data.companyName.length < 2 || data.companyName.length > 100) {
+			return companyErrorResponse(
+				"Company name must be 2-100 characters",
+				data
+			);
+		}
+		if (!/^[\w\s\-&.,']+$/.test(data.companyName)) {
+			return companyErrorResponse(
+				"Company name contains invalid characters",
+				data
+			);
+		}
+		if (
+			data.companyZip.length < 3 ||
+			data.companyZip.length > 10 ||
+			!/^\d{3,10}$/.test(data.companyZip)
+		) {
+			return companyErrorResponse("Company zip must be 3-10 digits", data);
+		}
+		const userId = session?.user?.id;
+		if (!userId) {
+			return companyErrorResponse("User not authenticated", data);
+		}
+		// Save to database
+		await prisma.company.create({
+			data: {
+				companyName: data.companyName,
+				companyAddress: data.companyAddress,
+				companyCity: data.companyCity,
+				companyState: data.companyState,
+				companyZip: data.companyZip,
+				userId,
+			},
+		});
+		return {
+			success: true,
+			error: "",
+			...data,
+		};
+	} catch (error) {
+		console.error("Error creating company:", error);
+		return companyErrorResponse("Failed to add company. Please try again.", {});
+	}
+}
+
+function sanitizeInput(str) {
+	if (!str) return "";
+	return String(str)
+		.replace(/<[^>]*>?/gm, "")
+		.trim();
+}
+
+function companyErrorResponse(message, data) {
+	return {
+		success: false,
+		error: message,
+		companyName: data.companyName || "",
+		companyAddress: data.companyAddress || "",
+		companyCity: data.companyCity || "",
+		companyState: data.companyState || "",
+		companyZip: data.companyZip || "",
+	};
 }
 
 // 🔧 Reusable helper for returning consistent error responses

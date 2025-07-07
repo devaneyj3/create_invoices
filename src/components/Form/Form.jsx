@@ -5,7 +5,7 @@ import PDFPreview from "../PDFPreview/PDFPreview";
 import styles from "./Form.module.scss";
 import { createInvoice } from "../../app/lib/actions";
 import { useInvoiceForm } from "../../context/InvoiceFormContext";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "../../context/authContext";
 
 export default function Form() {
 
@@ -14,7 +14,6 @@ export default function Form() {
 
 	const { signedInUser } = useAuth()
 	const [invoiceData, setInvoiceData] = useState()
-	console.log(signedInUser)
 	
 
 	const [state, action, pending] = useActionState(createInvoice, {
@@ -29,7 +28,7 @@ export default function Form() {
 	});
 
 useEffect(() => {
-	if (state) {
+	if (state && (state.invoiceNumber || state.amount || state.to || state.jobTitle || state.jobType || state.jobDescription)) {
 		setFormState((prev) => ({
 			...prev,
 			...state,
@@ -39,7 +38,7 @@ useEffect(() => {
 			...state
 		}))
 	}
-}, [state]);
+}, [state, signedInUser]);
 
 	// Check if all required fields are filled
 	const allFieldsFilled = [

@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 
 export const authContext = createContext({});
@@ -64,15 +64,17 @@ export const AuthProvider = ({ children }) => {
     return user;
   }
 
+  // Memoize the context value to prevent infinite re-renders
+  const contextValue = useMemo(() => ({
+    signedInUser,
+    setSignedInUser,
+    update,
+    isLoading,
+    profileComplete: signedInUser ? profileComplete(signedInUser) : false,
+  }), [signedInUser, isLoading]);
+
   return (
-    <authContext.Provider
-      value={{
-        signedInUser,
-        setSignedInUser,
-        update,
-        isLoading,
-        profileComplete: signedInUser ? profileComplete(signedInUser) : false,
-      }}>
+    <authContext.Provider value={contextValue}>
       {children}
     </authContext.Provider>
   );

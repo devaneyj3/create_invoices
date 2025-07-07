@@ -1,35 +1,22 @@
 // src/components/__tests__/SignedInUser.test.jsx
 import { render, screen } from '@testing-library/react';
 import SignedInUser from '../SignedInUser';
-
-// Mock next-auth/react
-vi.mock('next-auth/react', () => ({
-  useSession: () => ({
-    data: {
-      user: {
-        name: 'Test User',
-        email: 'test@example.com',
-        phone: '8888888888',
-        address: '333 Chicago Blvd',
-        city: 'Chicago',
-        state: 'IL',
-        zip: '48402',
-      },
-    },
-    status: 'authenticated',
-  }),
-  signIn: vi.fn(),
-  signOut: vi.fn(),
-}));
+import { vi } from 'vitest';
 
 // If you use useAuth, you may need to mock that too
-vi.mock('../../../context/authContext', () => ({
+vi.mock('@/context/authContext', () => ({
   useAuth: () => ({
-    setSignedInUser: vi.fn(),
-    fetchUser: vi.fn().mockResolvedValue({
+    signedInUser: {
       name: 'Test User',
       email: 'test@example.com',
-    }),
+      phone: '8888888888',
+      address: '333 Chicago Blvd',
+      city: 'Chicago',
+      state: 'IL',
+      zip: '48402',
+    },
+    setSignedInUser: vi.fn(),
+    fetchUser: vi.fn(),
   }),
 }));
 

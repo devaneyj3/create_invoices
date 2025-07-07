@@ -3,10 +3,12 @@
 import { signIn, signOut } from 'next-auth/react';
 import styles from "./SignedInUser.module.scss";
 import { useAuth } from '@/context/authContext';
+import CompanyForm from '../CompanyForm/CompanyForm';
+import { useState } from 'react';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
-  console.log(signedInUser)
+  const [ showAddCompany, setShowAddCompany] = useState(false)
   if (signedInUser) {
     return (
       <div className={styles.container}>
@@ -18,6 +20,8 @@ export default function SignedInUser() {
         <p className={styles.email}>State: {signedInUser.state || 'Not set'}</p>
         <p className={styles.email}>Zip: {signedInUser.zip || 'Not set'}</p>
         <button className={styles.button} onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
+        <button className={styles.button} onClick={() => setShowAddCompany(true)}>Add Company</button>
+        {showAddCompany && <CompanyForm setShowAddCompany={setShowAddCompany} />}
       </div>
     )
   }

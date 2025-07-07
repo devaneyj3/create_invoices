@@ -10,8 +10,6 @@ describe("DownloadPDFButton component", () => {
 
 		const button = await screen.findByTestId("download_invoice")
 		expect(button).toBeInTheDocument();
-
-		screen.debug(button)
 	});
 
 

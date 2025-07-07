@@ -21,17 +21,14 @@ export default function ProfileContainer() {
 	const { update } = useAuth() 
 
 	useEffect(() => {
-		if (state && !session?.user?.profileComplete) {
+		if (state && state.success && !session?.user?.profileComplete) {
 			const updateData = async () => {
 				await update(session?.user?.id, state.address, state.addressCity, state.addressState, state.addressZip, state.phone)
 			};
 			updateData();
-			if (state?.success) {
-				
-				router.replace('/dashboard')
-			}
+			router.replace('/dashboard')
 		}
-	}, [state, session?.user?.id]);
+	}, [state, session?.user?.id, session?.user?.profileComplete, update, router]);
 
 	return (
 		<div className={styles.container}>

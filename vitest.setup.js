@@ -1,6 +1,17 @@
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
+// Mock React's useActionState hook
+vi.mock("react", async () => {
+	const actual = await vi.importActual("react");
+	return {
+		...actual,
+		useActionState: (action, initialState) => {
+			return [initialState, vi.fn(), false];
+		},
+	};
+});
+
 // Mock next/navigation
 vi.mock("next/navigation", () => ({
 	useRouter: () => ({
