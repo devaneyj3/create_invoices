@@ -3,14 +3,18 @@ import {render} from '@testing-library/react'
 import {InvoiceFormProvider } from '../context/InvoiceFormContext'
 import { SessionProvider } from 'next-auth/react'
 import { AuthProvider } from '../context/authContext'
+import { CompanyProvider } from '@/context/companyContext'
 
 const AllTheProviders = ({children}) => {
   return (
       <SessionProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <CompanyProvider>
+
           <InvoiceFormProvider>
             {children}
           </InvoiceFormProvider>
+        </CompanyProvider>
         </AuthProvider>
       </SessionProvider>
     )

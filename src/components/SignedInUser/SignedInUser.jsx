@@ -5,10 +5,13 @@ import styles from "./SignedInUser.module.scss";
 import { useAuth } from '@/context/authContext';
 import CompanyForm from '../CompanyForm/CompanyForm';
 import { useState } from 'react';
+import { useCompany } from '@/context/companyContext';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
-  const [ showAddCompany, setShowAddCompany] = useState(false)
+  const [showAddCompany, setShowAddCompany] = useState(false)
+  const {companies} = useCompany()
+  console.log(companies)
   if (signedInUser) {
     return (
       <div className={styles.container}>
