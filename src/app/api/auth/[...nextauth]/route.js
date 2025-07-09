@@ -27,6 +27,7 @@ export const authOptions = {
 				session.user.id = dbUser.id;
 
 				// Add all profile fields to session
+				session.user.jobTitle = dbUser.jobTitle;
 				session.user.phone = dbUser.phone;
 				session.user.address = dbUser.address;
 				session.user.city = dbUser.city;
@@ -35,6 +36,7 @@ export const authOptions = {
 
 				// Add profile completion status to session
 				session.user.profileComplete = !!(
+					dbUser.jobTitle &&
 					dbUser.phone &&
 					dbUser.address &&
 					dbUser.city &&

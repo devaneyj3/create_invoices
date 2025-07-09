@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 export const updateUser = async (
 	id,
+	jobTitle,
 	address,
 	addressCity,
 	addressState,
@@ -16,6 +17,7 @@ export const updateUser = async (
 				id: id,
 			},
 			data: {
+				jobTitle: jobTitle,
 				address: address,
 				city: addressCity,
 				state: addressState,

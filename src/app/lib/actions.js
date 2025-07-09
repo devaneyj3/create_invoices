@@ -8,14 +8,7 @@ const prisma = new PrismaClient();
 export async function createInvoice(prevState, formData) {
 	try {
 		// Extract fields
-		const fields = [
-			"invoiceNumber",
-			"amount",
-			"to",
-			"jobTitle",
-			"jobType",
-			"jobDescription",
-		];
+		const fields = ["invoiceNumber", "amount", "jobDescription"];
 
 		const data = Object.fromEntries(
 			fields.map((key) => [key, formData.get(key)])
@@ -45,9 +38,6 @@ export async function createInvoice(prevState, formData) {
 			success: true,
 			error: "",
 			invoiceNumber: data.invoiceNumber,
-			to: data.to,
-			jobTitle: data.jobTitle,
-			jobType: data.jobType,
 			jobDescription: data.jobDescription,
 			amount: data.amount,
 		};
@@ -60,6 +50,7 @@ export async function createInvoice(prevState, formData) {
 export async function updateProfile(prevState, formData) {
 	try {
 		const fields = [
+			"jobTitle",
 			"phone",
 			"address",
 			"addressCity",
@@ -72,11 +63,12 @@ export async function updateProfile(prevState, formData) {
 
 		// Basic validation
 		if (
+			(!data.jobTitle,
 			!data.phone ||
-			!data.address ||
-			!data.addressCity ||
-			!data.addressState ||
-			!data.addressZip
+				!data.address ||
+				!data.addressCity ||
+				!data.addressState ||
+				!data.addressZip)
 		) {
 			return profileErrorResponse("Please fill in all fields", data);
 		}
@@ -143,22 +135,34 @@ export async function createCompany(prevState, formData) {
 		if (!userId) {
 			return companyErrorResponse("User not authenticated", data);
 		}
-		// Save to database
-		await prisma.company.create({
-			data: {
-				companyName: data.companyName,
-				companyAddress: data.companyAddress,
-				companyCity: data.companyCity,
-				companyState: data.companyState,
-				companyZip: data.companyZip,
-				userId,
-			},
+
+		//check to see if the company was already created
+		const company = await prisma.company.findUnique({
+			where: { companyName: data.companyName },
 		});
-		return {
-			success: true,
-			error: "",
-			...data,
-		};
+		if (company && company.companyName === data.companyName) {
+			return {
+				success: false,
+				error: "You already created this company",
+			};
+		} else {
+			// Save to database
+			await prisma.company.create({
+				data: {
+					companyName: data.companyName,
+					companyAddress: data.companyAddress,
+					companyCity: data.companyCity,
+					companyState: data.companyState,
+					companyZip: data.companyZip,
+					userId,
+				},
+			});
+			return {
+				success: true,
+				error: "",
+				...data,
+			};
+		}
 	} catch (error) {
 		console.error("Error creating company:", error);
 		return companyErrorResponse("Failed to add company. Please try again.", {});

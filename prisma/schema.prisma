@@ -44,7 +44,7 @@ datasource db {
     }
     model Company {
       id          String   @id @default(cuid())
-      companyName String
+      companyName String  @unique
       companyAddress String
       companyCity String
       companyState String
@@ -56,6 +56,7 @@ datasource db {
     model User {
       id            String    @id @default(cuid())
       name          String?
+      jobTitle      String?
       address       String?
       city          String?
       state         String?

@@ -6,6 +6,7 @@ import { useAuth } from '@/context/authContext';
 import CompanyForm from '../CompanyForm/CompanyForm';
 import { useState } from 'react';
 import { useCompany } from '@/context/companyContext';
+import Companies from '../Companies/companies';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
@@ -25,6 +26,7 @@ export default function SignedInUser() {
         <button className={styles.button} onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
         <button className={styles.button} onClick={() => setShowAddCompany(true)}>Add Company</button>
         {showAddCompany && <CompanyForm setShowAddCompany={setShowAddCompany} />}
+        <Companies/>
       </div>
     )
   }

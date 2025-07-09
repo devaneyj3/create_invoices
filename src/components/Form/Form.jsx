@@ -6,6 +6,7 @@ import styles from "./Form.module.scss";
 import { createInvoice } from "../../app/lib/actions";
 import { useInvoiceForm } from "../../context/InvoiceFormContext";
 import { useAuth } from "../../context/authContext";
+import { useCompany } from "@/context/companyContext";
 
 export default function Form() {
 
@@ -13,28 +14,27 @@ export default function Form() {
 	//put form data emelents into an array to look over
 
 	const { signedInUser } = useAuth()
+	const { selectedCompany } = useCompany()
 	const [invoiceData, setInvoiceData] = useState()
 	
 
 	const [state, action, pending] = useActionState(createInvoice, {
 		invoiceNumber: "",
 		amount: "",
-		to: "",
-		jobTitle: "",
-		jobType: "",
 		jobDescription: "",
 		error: "",
 		success: false,
 	});
 
 useEffect(() => {
-	if (state && (state.invoiceNumber || state.amount || state.to || state.jobTitle || state.jobType || state.jobDescription)) {
+	if (state && (state.invoiceNumber || state.amount || state.jobTitle|| state.jobDescription)) {
 		setFormState((prev) => ({
 			...prev,
 			...state,
 		}));
 		setInvoiceData((prev) => ({
 			...signedInUser,
+			...selectedCompany,
 			...state
 		}))
 	}
@@ -44,9 +44,6 @@ useEffect(() => {
 	const allFieldsFilled = [
 		"invoiceNumber",
 		"amount",
-		"to",
-		"jobTitle",
-		"jobType",
 		"jobDescription",
 	].every((key) => !!state[key]);
 
@@ -61,9 +58,6 @@ useEffect(() => {
 					<form action={action}>
 						{[
 							{ name: "invoiceNumber", label: "Invoice Number", type: "text", placeholder: "Enter invoice number", required: true },
-							{ name: "to", label: "To", type: "text", placeholder: "Invoice to (client name)" },
-							{ name: "jobTitle", label: "Job Title", type: "text", placeholder: "Enter job title" },
-							{ name: "jobType", label: "Job Type", type: "text", placeholder: "Enter job type" },
 							{ name: "amount", label: "Amount", type: "number", placeholder: "Enter amount", required: true, min: 1, max: 100000000, step: 0.01 },
 						].map(({ name, label, ...props }) => (
 							<div key={name} className={styles.formGroup}>

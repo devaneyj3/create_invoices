@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
 });
 
 export const InvoicePDF = (props) => {
-	const { invoiceNumber, amount, name, phone, address, city, state, zip, to, jobTitle, jobType, jobDescription } = props
+	console.log(props)
+	const { invoiceNumber, amount, name, phone, address, city, state, companyName, companyAddress, companyCity, companyState, companyZip, zip, jobTitle, jobDescription } = props
 	return (
 
 		<Document>
@@ -152,10 +153,9 @@ export const InvoicePDF = (props) => {
 						</View>
 						<View style={styles.box}>
 							<Text style={styles.billToLabel}>TO</Text>
-							<Text style={styles.billToText}>{to}</Text>
-							<Text style={styles.billToText}>119 PALMETTO</Text>
-							<Text style={styles.billToText}>ROAD</Text>
-							<Text style={styles.billToText}>TYRONE, GA 30290</Text>
+							<Text style={styles.billToText}>{companyName}</Text>
+								<Text style={styles.billToText}>{companyAddress}</Text>
+								<Text style={styles.billToText}>{companyCity}, {companyState} {companyZip}</Text>
 							<Text style={styles.billToText}>888-588-3139</Text>
 						</View>
 					</View>
@@ -190,7 +190,7 @@ export const InvoicePDF = (props) => {
 					<Text style={styles.tableHeaderText}>Amount</Text>
 				</View>
 				<View style={styles.tableRow}>
-						<Text style={styles.description}>{jobType}</Text>
+						<Text style={styles.description}>{jobDescription}</Text>
 					<Text style={styles.date}>{getCurrentDateFormatted()}</Text>
 					<Text style={styles.amount}>{formatMoney(amount)}</Text>
 				</View>

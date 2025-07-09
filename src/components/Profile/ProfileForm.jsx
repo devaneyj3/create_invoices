@@ -5,6 +5,10 @@ export default function ProfileForm({ state, pending, onSubmit }) {
   return (
     <form action={onSubmit}>
       <div className={styles.formGroup}>
+        <label htmlFor="title" className={styles.label}>Job Title</label>
+        <input name="jobTitle" type="text" placeholder="Enter your job title" defaultValue={state.jobTitle} className={styles.input} />
+      </div>
+      <div className={styles.formGroup}>
         <label htmlFor="phone" className={styles.label}>Phone</label>
         <input name="phone" type="tel" placeholder="Enter your phone number" defaultValue={state.phone} className={styles.input} />
       </div>

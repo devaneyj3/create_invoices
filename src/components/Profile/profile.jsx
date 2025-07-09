@@ -8,6 +8,7 @@ import { useAuth } from "@/context/authContext";
 
 export default function ProfileContainer() {
 	const [state, action, pending] = useActionState(updateProfile, {
+		jobTitle: "",
 		phone: "",
 		address: "",
 		addressCity: "",
@@ -23,7 +24,7 @@ export default function ProfileContainer() {
 	useEffect(() => {
 		if (state && state.success && !session?.user?.profileComplete) {
 			const updateData = async () => {
-				await update(session?.user?.id, state.address, state.addressCity, state.addressState, state.addressZip, state.phone)
+				await update(session?.user?.id, state.jobTitle, state.address, state.addressCity, state.addressState, state.addressZip, state.phone)
 			};
 			updateData();
 			router.replace('/dashboard')

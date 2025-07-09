@@ -6,6 +6,7 @@ export const authContext = createContext({});
 
 export function profileComplete(user) {
   return !!(
+    user?.jobTitle,
     user?.phone &&
     user?.address &&
     user?.city &&
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
       setSignedInUser({
         id: session.user.id,
         name: session.user.name,
+        jobTitle:session.user.jobTitle,
         email: session.user.email,
         phone: session.user.phone,
         address: session.user.address,
@@ -46,11 +48,11 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, [session, status]);
 
-  async function update(id, address, city, state, zip, phone) {
+  async function update(id, jobTitle, address, city, state, zip, phone) {
     const res = await fetch("/api/user", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, address, city, state, zip, phone }),
+      body: JSON.stringify({ id, jobTitle, address, city, state, zip, phone }),
     });
     const user = await res.json();
     
