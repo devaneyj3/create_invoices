@@ -68,8 +68,24 @@ datasource db {
       accounts      Account[]
       sessions      Session[]
       companies     Company[]
+      invoices      Invoice[]
     }
+    model Invoice {
+      id            String   @id @default(cuid())
+      userId        String
+      invoiceNumber String
+      date          DateTime
+      amount        Decimal  @db.Decimal(10,2)
+      to            String 
+      description   String
+      createdAt     DateTime @default(now())
+      updatedAt     DateTime @updatedAt
 
+      user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+      @@index([userId])
+      @@unique([userId, invoiceNumber]) // Each user can't have duplicate invoice numbers
+    }
     model VerificationToken {
       identifier String
       token      String   @unique
