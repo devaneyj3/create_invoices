@@ -7,12 +7,16 @@ import CompanyForm from '../CompanyForm/CompanyForm';
 import { useState } from 'react';
 import { useCompany } from '@/context/companyContext';
 import Companies from '../Companies/companies';
+import { useInvoice } from '@/context/InvoiceItemProvider';
+import PastInvoices from '../PastInvoices/PastInvoices';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
   const [showAddCompany, setShowAddCompany] = useState(false)
-  const {companies} = useCompany()
-  console.log(companies)
+  const { companies } = useCompany()
+  const {invoices} = useInvoice()
+  console.log('SignedInUser.jsx, Comapanies: ',companies)
+  console.log('SignedInUser.jsx, Invoices: ',invoices)
   if (signedInUser) {
     return (
       <div className={styles.container}>
@@ -26,7 +30,8 @@ export default function SignedInUser() {
         <button className={styles.button} onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
         <button className={styles.button} onClick={() => setShowAddCompany(true)}>Add Company</button>
         {showAddCompany && <CompanyForm setShowAddCompany={setShowAddCompany} />}
-        <Companies/>
+        <Companies />
+        <PastInvoices/>
       </div>
     )
   }
