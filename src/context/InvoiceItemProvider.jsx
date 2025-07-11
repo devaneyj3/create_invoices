@@ -52,6 +52,21 @@ export const InvoiceItemProvider = ({ children }) => {
       setNextInvoiceNumber(1);
     }
   }, [invoices]);
+
+  const createInvoice = async(data) => {
+    const res = await fetch('/api/invoice', {
+      method: 'POST',
+      headers: {
+        'ContentType': 'application/json'
+      },
+      body: JSON.stringify({ ...data, userId: session?.user.id })
+    })
+    const newInvoice = await res.json()
+    setInvoices(prev => [...prev, newInvoice])
+    setSelectedInvoice(newInvoice)
+    if(!res.ok) throw new Error('Failed to save invoice to database')
+    return newInvoice
+  } 
   
   
   
@@ -62,6 +77,7 @@ export const InvoiceItemProvider = ({ children }) => {
       selectedInvoice,
       setSelectedInvoice,
       nextInvoiceNum,
+      createInvoice,
       error,
       isLoading
   

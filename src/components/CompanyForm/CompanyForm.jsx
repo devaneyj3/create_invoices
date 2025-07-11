@@ -14,7 +14,6 @@ const initialState = {
 
 export default function CompanyForm({setShowAddCompany}) {
   const [state, action, pending] = useActionState(createCompany, initialState);
-  console.log(state)
   
   const submitCompany = () => {
     setTimeout(() => {
