@@ -1,6 +1,7 @@
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import styles from "./CompanyForm.module.scss";
-import { createCompany } from "@/app/lib/actions";
+import { addCompany } from "@/app/lib/actions";
+import { useCompany } from "@/context/companyContext";
 
 const initialState = {
   companyName: "",
@@ -13,14 +14,25 @@ const initialState = {
 };
 
 export default function CompanyForm({setShowAddCompany}) {
-  const [state, action, pending] = useActionState(createCompany, initialState);
+  const [state, action, pending] = useActionState(addCompany, initialState);
+  const {createCompany} = useCompany()
   
-  const submitCompany = () => {
+  useEffect(() => {
+  if (state.success) {
+    createCompany(state); 
+    setTimeout(() => {
+      setShowAddCompany(false);
+    }, 3000);
+  }
+  }, [state]);
+  
+  const submitCompany = async () => {
     setTimeout(() => {
       setShowAddCompany(false)
 
     }, 3000)
   }
+
 
   return (
     <div className={styles.container}>

@@ -51,7 +51,7 @@ export const CompanyProvider = ({ children }) => {
       });
       if (!res.ok) throw new Error('Failed to create company');
       const newCompany = await res.json();
-      setCompanies(prev => [...prev, newCompany]);
+      setCompanies(prev => [...prev, newCompany.company]);
       if (!selectedCompany) setSelectedCompany(newCompany);
       return newCompany;
     } catch (err) {

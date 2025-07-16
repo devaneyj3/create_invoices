@@ -87,7 +87,7 @@ export async function updateProfile(prevState, formData) {
 	}
 }
 
-export async function createCompany(prevState, formData) {
+export async function addCompany(prevState, formData) {
 	const session = await getServerSession(authOptions);
 	try {
 		// Extract and sanitize fields
@@ -136,33 +136,11 @@ export async function createCompany(prevState, formData) {
 			return companyErrorResponse("User not authenticated", data);
 		}
 
-		//check to see if the company was already created
-		const company = await prisma.company.findUnique({
-			where: { companyName: data.companyName },
-		});
-		if (company && company.companyName === data.companyName) {
-			return {
-				success: false,
-				error: "You already created this company",
-			};
-		} else {
-			// Save to database
-			await prisma.company.create({
-				data: {
-					companyName: data.companyName,
-					companyAddress: data.companyAddress,
-					companyCity: data.companyCity,
-					companyState: data.companyState,
-					companyZip: data.companyZip,
-					userId,
-				},
-			});
-			return {
-				success: true,
-				error: "",
-				...data,
-			};
-		}
+		return {
+			success: true,
+			error: "",
+			...data,
+		};
 	} catch (error) {
 		console.error("Error creating company:", error);
 		return companyErrorResponse("Failed to add company. Please try again.", {});

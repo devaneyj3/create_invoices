@@ -20,8 +20,6 @@ export default function Form() {
 
 	//get the last invoice number and add one to it and add it to invoiceNumber input
 	const { nextInvoiceNum, isLoading } = useInvoice()
-	console.log(nextInvoiceNum)
-	
 	
 
 	const [state, action, pending] = useActionState(createInvoice, {

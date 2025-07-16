@@ -15,8 +15,6 @@ export default function SignedInUser() {
   const [showAddCompany, setShowAddCompany] = useState(false)
   const { companies } = useCompany()
   const {invoices} = useInvoice()
-  console.log('SignedInUser.jsx, Comapanies: ',companies)
-  console.log('SignedInUser.jsx, Invoices: ',invoices)
   if (signedInUser) {
     return (
       <div className={styles.container}>

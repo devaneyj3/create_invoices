@@ -30,3 +30,39 @@ export async function GET(request) {
 		);
 	}
 }
+
+export async function POST(request) {
+	try {
+		const data = await request.json();
+
+		const existingCompany = await prisma.company.findUnique({
+			where: { companyName: data.companyName },
+		});
+
+		if (existingCompany) {
+			return NextResponse.json(
+				{ success: false, error: "You already created this company" },
+				{ status: 400 }
+			);
+		}
+
+		const newCompany = await prisma.company.create({
+			data: {
+				companyName: data.companyName,
+				companyAddress: data.companyAddress,
+				companyCity: data.companyCity,
+				companyState: data.companyState,
+				companyZip: data.companyZip,
+				userId: data.userId,
+			},
+		});
+
+		return NextResponse.json({ success: true, company: newCompany });
+	} catch (error) {
+		console.error("Error creating company:", error);
+		return NextResponse.json(
+			{ success: false, error: "Failed to create company" },
+			{ status: 500 }
+		);
+	}
+}
