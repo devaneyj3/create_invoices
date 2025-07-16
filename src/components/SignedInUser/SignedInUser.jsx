@@ -1,23 +1,18 @@
 'use client';
 
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import styles from "./SignedInUser.module.scss";
 import { useAuth } from '@/context/authContext';
 import CompanyForm from '../CompanyForm/CompanyForm';
 import { useState } from 'react';
-import { useCompany } from '@/context/companyContext';
-import Companies from '../Companies/companies';
-import { useInvoice } from '@/context/InvoiceItemProvider';
-import PastInvoices from '../PastInvoices/PastInvoices';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
   const [showAddCompany, setShowAddCompany] = useState(false)
-  const { companies } = useCompany()
-  const {invoices} = useInvoice()
+
   if (signedInUser) {
     return (
-      <div className={styles.container}>
+      <div className='px-10 py-10'>
         <h2 className={styles.title}>Welcome, {signedInUser.name}!</h2>
         <p className={styles.email}>Email: {signedInUser.email}</p>
         <p className={styles.email}>Phone: {signedInUser.phone || 'Not set'}</p>
@@ -25,11 +20,8 @@ export default function SignedInUser() {
         <p className={styles.email}>City: {signedInUser.city || 'Not set'}</p>
         <p className={styles.email}>State: {signedInUser.state || 'Not set'}</p>
         <p className={styles.email}>Zip: {signedInUser.zip || 'Not set'}</p>
-        <button className={styles.button} onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
         <button className={styles.button} onClick={() => setShowAddCompany(true)}>Add Company</button>
         {showAddCompany && <CompanyForm setShowAddCompany={setShowAddCompany} />}
-        <Companies />
-        <PastInvoices/>
       </div>
     )
   }

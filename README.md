@@ -26,6 +26,7 @@ A full-stack application for creating and managing companies and generating down
 
 4. When you hit the `Add Company` button, the `createCompany` function is called from `context/companyContext.jsx`
 5. `context/companyContext.jsx` calls `/api/companies` to save the data to the supabase database with the Prisma ORM
+6. `/api/companies` returns data to `context/companyContext.jsx` to save the new company to the context for real time updates
 ---
 
 ## 🧾 How Invoices Are Created

@@ -13,9 +13,9 @@ export default function Home() {
 
 	useEffect(() => {
 		if (status === 'authenticated' && session?.user?.profileComplete) {
-			router.replace('/dashboard');
+			router.replace('/dashboard/');
 		} else if (status === 'authenticated' && !session?.user?.profileComplete) {
-			router.replace('/profile');
+			router.replace('/AddNewProfile');
 		}
 	}, [status, session]);
 	

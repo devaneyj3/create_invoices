@@ -1,7 +1,16 @@
 import React from 'react'
 import { useInvoice } from '@/context/InvoiceItemProvider'
 import styles from './PastInvoices.module.scss'
+import {  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption} from '../ui/table'
 
+  const HEADERS = ['Invoice #','Date', 'To','Amount']
 export default function PastInvoices() {
   const { invoices, isLoading, error } = useInvoice()
 
@@ -18,15 +27,15 @@ export default function PastInvoices() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className='px-10 py-10'>
       <h2 className={styles.heading}>Past Invoices</h2>
       <table className={styles.table}>
         <thead className={styles.thead}>
           <tr>
-            <th className={styles.th}>Invoice #</th>
-            <th className={styles.th}>Date</th>
-            <th className={styles.th}>To</th>
-            <th className={styles.th}>Amount</th>
+            {HEADERS.map((header) => (
+              <th className={styles.th} key={header}>{header}</th>
+
+            ))}
           </tr>
         </thead>
         <tbody>

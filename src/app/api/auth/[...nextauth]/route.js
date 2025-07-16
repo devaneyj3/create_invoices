@@ -51,7 +51,7 @@ export const authOptions = {
 		async redirect({ url, baseUrl }) {
 			// After sign in, redirect based on profile completion
 			if (url.startsWith(baseUrl + "/api/auth/signin")) {
-				return baseUrl + "/profile"; // Always go to profile first
+				return baseUrl + "/AddNewProfile"; // Always go to add new profile first
 			}
 			return url;
 		},

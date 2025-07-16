@@ -18,7 +18,7 @@ export default function Companies() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className='px-10 py-10'>
       <h2 className={styles.heading}>Your Companies</h2>
       <div className={styles.list}>
         {companies.map(company => (
