@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧾 Invoice & Company Management App
 
-## Getting Started
+A full-stack application for creating and managing companies and generating downloadable PDF invoices.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Create and manage company profiles
+- Generate invoices tied to companies
+- Preview and download invoices as PDFs
+- Uses React, Next.js App Router, and Server Actions
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 How Companies Are Created
 
-## Learn More
+1. **Click "Add Company"** in the UI.
+2. Fill out the company form — handled by:
 
-To learn more about Next.js, take a look at the following resources:
+   `components/CompanyForm/CompanyForm.jsx`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. The form's submission is handled by the `createCompany()` function located in:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   `app/lib/actions.js` (line 90)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧾 How Invoices Are Created
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fill out the invoice form in the UI — handled by:
+
+   `components/Form/Form.jsx`
+
+2. Form values are passed to the `createInvoice()` function located in:
+
+   `app/lib/actions.js` (line 8)
+
+3. The invoice values are validated and merged with:
+
+   - Selected company from: `context/companyContext.jsx`
+   - Signed-in user from: `context/authContext.jsx`
+
+   This combined data is then passed to:
+
+   - `components/DownloadPdfButton/DownloadPdfButton.jsx`
+   - `components/PDFPreview/PDFPreview.jsx`
+
+4. **PDF Generation Flow**:
+   - `makeInvoice()` in `DownloadPdfButton.jsx`:
+     - Calls `createInvoice()` from `context/invoiceItemProvider.jsx`
+     - Sends data to `/api/invoice/route.js` to create the invoice
+     - Also calls `/api/generate-pdf` to generate the PDF file
+
+5. `components/PDFPreview/PDFPreview.jsx`:
+   - Takes form state from `Form.jsx`
+   - Sends data to `/api/generate-pdf` as well
+
+6. `/api/generate-pdf`:
+   - Validates the data
+   - Renders the invoice using:
+
+     `components/InvoicePDF/InvoicePDF.jsx`
+
+---

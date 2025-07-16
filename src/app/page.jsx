@@ -19,7 +19,6 @@ export default function Home() {
 		}
 	}, [status, session]);
 	
-	if (status === 'loading') return <div>Loading...</div>;
 
 	return (
 		<div className={styles.container}>
