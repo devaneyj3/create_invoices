@@ -10,6 +10,8 @@ export default function SignedInUser() {
   const { signedInUser } = useAuth();
   const [showAddCompany, setShowAddCompany] = useState(false)
 
+  console.log('signedInUserComponent',signedInUser)
+
   if (signedInUser) {
     return (
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 px-10 py-10'>
