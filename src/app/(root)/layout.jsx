@@ -4,8 +4,10 @@ import Providers from "@/components/Providers";
 export default function RootLayout({ children }) {
 	return (
 		<Providers>
-			<Header />
-			<div className="flex-1 wrapper">{children}</div>
+			<div className="flex h-screen flex-col">
+				<Header />
+				<main className="flex-1 wrapper">{children}</main>
+			</div>
 		</Providers>
 	);
 }

@@ -35,7 +35,7 @@ export default function CompanyForm({setShowAddCompany}) {
 
 
   return (
-    <div className={styles.container}>
+    <div>
       <h2 className={styles.title}>Add a Company</h2>
       <form action={action} className={styles.form}>
         <div className={styles.formGroup}>
