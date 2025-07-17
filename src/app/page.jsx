@@ -12,12 +12,18 @@ export default function Home() {
 	const { signedInUser } = useAuth()
 
 	useEffect(() => {
+		console.log('Home page - Session status:', status);
+		console.log('Home page - Session data:', session);
+		console.log('Home page - Signed in user:', signedInUser);
+		
 		if (status === 'authenticated' && session?.user?.profileComplete) {
-			router.replace('/dashboard/');
+			console.log('Redirecting to dashboard - profile complete');
+			router.replace('/dashboard');
 		} else if (status === 'authenticated' && !session?.user?.profileComplete) {
+			console.log('Redirecting to AddNewProfile - profile incomplete');
 			router.replace('/AddNewProfile');
 		}
-	}, [status, session]);
+	}, [status, session, signedInUser, router]);
 	
 
 	return (
