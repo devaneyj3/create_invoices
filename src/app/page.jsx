@@ -1,6 +1,5 @@
 'use client'
 
-import { useAuth } from "@/context/authContext";
 import styles from "./Landing.module.scss";
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -9,21 +8,15 @@ import { useEffect } from 'react';
 export default function Home() {
 	const router = useRouter();
 	const { data: session, status } = useSession();
-	const { signedInUser } = useAuth()
 
 	useEffect(() => {
-		console.log('Home page - Session status:', status);
-		console.log('Home page - Session data:', session);
-		console.log('Home page - Signed in user:', signedInUser);
 		
 		if (status === 'authenticated' && session?.user?.profileComplete) {
-			console.log('Redirecting to dashboard - profile complete');
-			router.replace('/dashboard');
+			router.replace('/dashboard/');
 		} else if (status === 'authenticated' && !session?.user?.profileComplete) {
-			console.log('Redirecting to AddNewProfile - profile incomplete');
 			router.replace('/AddNewProfile');
 		}
-	}, [status, session, signedInUser, router]);
+	}, [status, session]);
 	
 
 	return (
