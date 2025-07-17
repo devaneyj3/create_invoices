@@ -38,9 +38,22 @@ export const InvoiceItemProvider = ({ children }) => {
         setIsLoading(false);
       }
     };
+    
+    // Handle session loading state
+    if (status === "loading") {
+      setIsLoading(true);
+      return;
+    }
+    
     if (status === "authenticated") {
       getInvoices();
-    }    
+    } else {
+      // Session is not authenticated or unauthenticated
+      setInvoices([]);
+      setSelectedInvoice(null);
+      setIsLoading(false);
+      setError(null);
+    }
   }, [session?.user?.id, status])
 
   useEffect(() => {

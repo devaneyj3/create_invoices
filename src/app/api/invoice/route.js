@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { use } from "react";
 import { getCurrentDateFormatted } from "@/utils/getDate";
 
 const prisma = new PrismaClient();

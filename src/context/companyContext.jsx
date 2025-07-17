@@ -34,10 +34,24 @@ export const CompanyProvider = ({ children }) => {
         setIsLoading(false);
       }
     };
+    
+    // Handle session loading state
+    if (status === "loading") {
+      setIsLoading(true);
+      return;
+    }
+    
     if (status === "authenticated") {
       fetchCompanies();
     }
-  }, [session?.user?.id, status]);
+    else {
+
+      setCompanies([]);
+      setSelectedCompany(null);
+      setIsLoading(false);
+      setError(null);
+    }
+    }, [session?.user?.id, status]);
 
   // Create a new company
   const createCompany = async (companyData) => {
