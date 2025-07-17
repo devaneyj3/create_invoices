@@ -1,9 +1,4 @@
-.background {
 
-  background: linear-gradient(120deg, #667eea 0%, #f093fb 100%);
-  overflow: hidden;
-  animation: gradientMove 8s ease-in-out infinite alternate;
-}
 
 @keyframes gradientMove {
   0% {
@@ -14,20 +9,6 @@
   }
 }
 
-.container {
-  max-width: 900px; 
-  margin: 0 auto; 
-  padding: 3rem 2rem;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-  width: 100%;
-}
 
 .landingCard {
   background: rgba(255,255,255,0.95);

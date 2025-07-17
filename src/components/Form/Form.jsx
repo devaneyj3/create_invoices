@@ -55,8 +55,8 @@ useEffect(() => {
 
 	return (
 		<>
-			<div className={styles.background} />
-			<div className={styles.container}>
+			<div />
+
 				<div className={styles.landingCard}>
 					<h1 className={styles.title}>Make your own invoice</h1>
 					<p className={styles.subtitle}>Create, preview, and download beautiful invoices in seconds.</p>
@@ -101,7 +101,7 @@ useEffect(() => {
 						</form>
 					)}
 				</div>
-			</div>
+
 		</>
 	);
 }

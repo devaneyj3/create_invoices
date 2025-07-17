@@ -1,7 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { EllipsisVertical, UserIcon } from "lucide-react";
+import { EllipsisVertical, UserIcon, UserPen, LayoutDashboard } from "lucide-react";
 import {
 	Sheet,
 	SheetContent,
@@ -17,8 +16,12 @@ const Menu = () => {
 		<>
 			<div className="flex justify-end gap-3">
 				<nav className="md:flex hidden w-full max-w-xs gap-1">
+					<Button onClick={() => router.push('/dashboard')} variant='ghost'>
+							<LayoutDashboard />
+              Dashboard
+					</Button>
 					<Button onClick={() => router.push('/profile')} variant='ghost'>
-							<UserIcon />
+							<UserPen />
               Profile
 					</Button>
 					<Button onClick={() => signOut({ callbackUrl: '/' })} variant='ghost'>
@@ -33,8 +36,12 @@ const Menu = () => {
 						</SheetTrigger>
 						<SheetContent className="flex flex-col items-start">
               <SheetTitle>Menu</SheetTitle>
+              	<Button onClick={() => router.push('/dashboard')} variant='ghost'>
+							<LayoutDashboard />
+              Dashboard
+					</Button>
                 <Button onClick={() => router.push('/profile')} variant='ghost'>
-							<UserIcon />
+							<UserPen />
               Profile
 					</Button>
               <Button onClick={() => signOut({ callbackUrl: '/' })} variant='ghost'>

@@ -8,7 +8,7 @@ export default function Header() {
     <header className="border-b">
 			<div className="wrapper flex-between">
 				<div className="flex-start">
-					<Link href="/" className="flex-start">
+					<Link href="/dashboard" className="flex-start">
 						<Image
 							priority={true}
 							src="/images/invoice.png"
