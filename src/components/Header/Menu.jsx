@@ -5,7 +5,6 @@ import {
 	UserIcon,
 	UserPen,
 	LayoutDashboard,
-	PiggyBank,
 } from "lucide-react";
 import {
 	Sheet,
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import CreateInvoiceMenuItem from "./CreateInvoiceMenuItem";
 
 const Menu = () => {
 	const router = useRouter();
@@ -22,10 +22,7 @@ const Menu = () => {
 		<>
 			<div className="flex justify-end gap-3">
 				<nav className="md:flex hidden w-full max-w-xs gap-1">
-					<Button onClick={() => router.push("/dashboard")} variant="ghost">
-						<PiggyBank />
-						Create Invoice
-					</Button>
+					<CreateInvoiceMenuItem />
 					<Button onClick={() => router.push("/dashboard")} variant="ghost">
 						<LayoutDashboard />
 						Dashboard
@@ -46,10 +43,7 @@ const Menu = () => {
 						</SheetTrigger>
 						<SheetContent className="flex flex-col items-start">
 							<SheetTitle>Menu</SheetTitle>
-							<Button onClick={() => router.push("/dashboard")} variant="ghost">
-								<PiggyBank />
-								Create Invoice
-							</Button>
+							<CreateInvoiceMenuItem />
 							<Button onClick={() => router.push("/dashboard")} variant="ghost">
 								<LayoutDashboard />
 								Dashboard
