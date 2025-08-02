@@ -14,7 +14,7 @@ import { PiggyBank } from "lucide-react";
 export default function CreateInvoiceMenuItem() {
 	return (
 		<Dialog>
-			<DialogTrigger>
+			<DialogTrigger asChild>
 				<Button variant="ghost">
 					<PiggyBank />
 					Create Invoice
