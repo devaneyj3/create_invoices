@@ -14,23 +14,116 @@ export default function SignedInUser() {
 
   if (signedInUser) {
     return (
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 px-10 py-10'>
-        <h2 className={styles.title}>Welcome, {signedInUser.name}!</h2>
-        <p className={styles.email}>Email: {signedInUser.email}</p>
-        <p className={styles.email}>Phone: {signedInUser.phone || 'Not set'}</p>
-        <p className={styles.email}>Address: {signedInUser.address || 'Not set'}</p>
-        <p className={styles.email}>City: {signedInUser.city || 'Not set'}</p>
-        <p className={styles.email}>State: {signedInUser.state || 'Not set'}</p>
-        <p className={styles.email}>Zip: {signedInUser.zip || 'Not set'}</p>
-        <button className={styles.button} onClick={() => setShowAddCompany(true)}>Add Company</button>
-        {showAddCompany && <CompanyForm setShowAddCompany={setShowAddCompany} />}
+      <div className={styles.profileContainer}>
+        <div className={styles.profileHeader}>
+          <div className={styles.avatarSection}>
+            <div className={styles.avatar}>
+              {signedInUser.name ? signedInUser.name.charAt(0).toUpperCase() : 'U'}
+            </div>
+            <div className={styles.userInfo}>
+              <h1 className={styles.welcomeTitle}>Welcome back, {signedInUser.name}!</h1>
+              <p className={styles.userEmail}>{signedInUser.email}</p>
+            </div>
+          </div>
+          
+          <div className={styles.profileStats}>
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>
+                {signedInUser.profileComplete ? '100%' : '60%'}
+              </span>
+              <span className={styles.statLabel}>Profile Complete</span>
+            </div>
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>✨</span>
+              <span className={styles.statLabel}>Ready to Invoice</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.profileContent}>
+          <div className={styles.infoGrid}>
+            <div className={styles.infoCard}>
+              <div className={styles.infoHeader}>
+                <span className={styles.infoIcon}>💼</span>
+                <h3 className={styles.infoTitle}>Job Title</h3>
+              </div>
+              <p className={styles.infoValue}>
+                {signedInUser.jobTitle || 'Not set'}
+              </p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={styles.infoHeader}>
+                <span className={styles.infoIcon}>📱</span>
+                <h3 className={styles.infoTitle}>Phone</h3>
+              </div>
+              <p className={styles.infoValue}>
+                {signedInUser.phone || 'Not set'}
+              </p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={styles.infoHeader}>
+                <span className={styles.infoIcon}>🏠</span>
+                <h3 className={styles.infoTitle}>Address</h3>
+              </div>
+              <p className={styles.infoValue}>
+                {signedInUser.address || 'Not set'}
+              </p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={styles.infoHeader}>
+                <span className={styles.infoIcon}>🌆</span>
+                <h3 className={styles.infoTitle}>Location</h3>
+              </div>
+              <p className={styles.infoValue}>
+                {signedInUser.city && signedInUser.state && signedInUser.zip 
+                  ? `${signedInUser.city}, ${signedInUser.state} ${signedInUser.zip}`
+                  : 'Not set'
+                }
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.actionButtons}>
+            <button 
+              className={styles.primaryButton} 
+              onClick={() => setShowAddCompany(true)}
+            >
+              <span className={styles.buttonIcon}>🏢</span>
+              Add Company
+            </button>
+            
+            <button className={styles.secondaryButton}>
+              <span className={styles.buttonIcon}>📝</span>
+              Edit Profile
+            </button>
+          </div>
+
+          {showAddCompany && (
+            <div className={styles.companyFormOverlay}>
+              <CompanyForm setShowAddCompany={setShowAddCompany} />
+            </div>
+          )}
+        </div>
       </div>
     )
   }
+  
   return (
     <div className={styles.container}>
-      <span className={styles.notSignedIn}>Not signed in</span> <br />
-      <button className={styles.button} onClick={() => signIn()}>Sign in</button>
+      <div className={styles.notSignedInContent}>
+        <div className={styles.notSignedInIcon}>🔒</div>
+        <h2 className={styles.notSignedInTitle}>Not Signed In</h2>
+        <p className={styles.notSignedInText}>
+          Please sign in to access your profile and create invoices
+        </p>
+        <button className={styles.signInButton} onClick={() => signIn()}>
+          <span className={styles.buttonIcon}>🚀</span>
+          Sign In
+        </button>
+      </div>
     </div>
   )
 } 
