@@ -65,6 +65,7 @@ datasource db {
       phone         String?
       emailVerified DateTime?
       image         String?
+      profileComplete Boolean @default(false)
       accounts      Account[]
       sessions      Session[]
       companies     Company[]

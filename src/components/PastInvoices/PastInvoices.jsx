@@ -1,16 +1,7 @@
 import React from 'react'
 import { useInvoice } from '@/context/InvoiceItemProvider'
 import styles from './PastInvoices.module.scss'
-import {  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption} from '../ui/table'
 
-  const HEADERS = ['Invoice #','Date', 'To','Amount']
 export default function PastInvoices() {
   const { invoices, isLoading, error } = useInvoice()
 
@@ -29,26 +20,52 @@ export default function PastInvoices() {
   return (
     <div className='px-10 py-10'>
       <h2 className={styles.heading}>Past Invoices</h2>
-      <table className={styles.table}>
-        <thead className={styles.thead}>
-          <tr>
-            {HEADERS.map((header) => (
-              <th className={styles.th} key={header}>{header}</th>
+      
+      {/* Mobile/Tablet View - Cards */}
+      <div className={styles.mobileView}>
+        {invoices.map(inv => (
+          <div key={inv.id} className={styles.invoiceCard}>
+            <div className={styles.cardHeader}>
+              <span className={styles.invoiceNumber}>#{inv.invoiceNumber}</span>
+              <span className={styles.amount}>${inv.amount}</span>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.cardRow}>
+                <span className={styles.label}>Date:</span>
+                <span className={styles.value}>{new Date(inv.date).toLocaleDateString()}</span>
+              </div>
+              <div className={styles.cardRow}>
+                <span className={styles.label}>To:</span>
+                <span className={styles.value}>{inv.to}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {invoices.map(inv => (
-            <tr key={inv.id}>
-              <td className={styles.td}>{inv.invoiceNumber}</td>
-              <td className={styles.td}>{new Date(inv.date).toLocaleDateString()}</td>
-              <td className={styles.td}>{inv.to}</td>
-              <td className={styles.td}>${inv.amount}</td>
+      {/* Desktop View - Table */}
+      <div className={styles.desktopView}>
+        <table className={styles.table}>
+          <thead className={styles.thead}>
+            <tr>
+              <th className={styles.th}>Invoice #</th>
+              <th className={styles.th}>Date</th>
+              <th className={styles.th}>To</th>
+              <th className={styles.th}>Amount</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {invoices.map(inv => (
+              <tr key={inv.id}>
+                <td className={styles.td}>{inv.invoiceNumber}</td>
+                <td className={styles.td}>{new Date(inv.date).toLocaleDateString()}</td>
+                <td className={styles.td}>{inv.to}</td>
+                <td className={styles.td}>${inv.amount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
