@@ -1,39 +1,20 @@
 // src/components/PDFPreview.js
 import { useState } from "react";
 import styles from "./PDFPreview.module.scss"
+import { generatePdf } from "@/lib/generatePDF";
 
-export default function PDFPreview(props) {
+export default function PDFPreview({ disabled, ...props }) {
 	const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 	const [pdfUrl, setPdfUrl] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const openPreview = async () => {
-		setIsLoading(true);
-		try {
-			const response = await fetch("/api/generate-pdf", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(props),
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to generate PDF");
-			}
-
-			const blob = await response.blob();
-			const url = window.URL.createObjectURL(blob);
-			setPdfUrl(url);
-			setIsPreviewOpen(true);
-		} catch (error) {
-			console.error("Error generating PDF preview:", error);
-			alert("Failed to generate PDF preview. Please try again.");
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
+		// Prevent opening preview if disabled
+		if (disabled) return;
+		
+		generatePdf(setIsLoading)
+	}
+	
 	const closePreview = () => {
 		setIsPreviewOpen(false);
 		if (pdfUrl) {
@@ -46,9 +27,9 @@ export default function PDFPreview(props) {
 		return (
 			<button
 				onClick={openPreview}
-				disabled={isLoading}
+				disabled={disabled}
 				data-testid="loading"
-				className={styles.previewButton}>
+				className={`${styles.previewButton} ${disabled ? styles.disabled : ''}`}>
 				{isLoading ? "Loading..." : "Preview Invoice"}
 			</button>
 		);

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useMemo } from "react"
 
-import { useSession } from "next-auth/react"
+import { useSession, SessionProvider } from "next-auth/react"
 
 export const InvoiceItem = createContext({})
 
@@ -96,9 +96,12 @@ export const InvoiceItemProvider = ({ children }) => {
   
     }), [invoices, selectedInvoice, nextInvoiceNum, error, isLoading]);
   return (
+    <SessionProvider>
+
     <InvoiceItem.Provider value={values}>
       {children}
     </InvoiceItem.Provider>
+    </SessionProvider>
   )
 }
 

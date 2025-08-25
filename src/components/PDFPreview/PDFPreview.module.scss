@@ -116,4 +116,15 @@
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
+  
+}
+.disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	background: #ccc !important;
+	
+	&:hover {
+		transform: none !important;
+		box-shadow: none !important;
+	}
 }

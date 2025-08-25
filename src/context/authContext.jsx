@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, SessionProvider } from 'next-auth/react';
 
 export const authContext = createContext({});
 
@@ -15,10 +15,10 @@ export function profileComplete(user) {
   );
 }
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider =({ children }) => {
   const [signedInUser, setSignedInUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     if (status === 'loading') {
@@ -76,9 +76,12 @@ export const AuthProvider = ({ children }) => {
   }), [signedInUser, isLoading]);
 
   return (
+    <SessionProvider>
+
     <authContext.Provider value={contextValue}>
       {children}
     </authContext.Provider>
+    </SessionProvider>
   );
 };
 

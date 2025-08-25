@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useState, useMemo, useEffect, useContext } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, SessionProvider } from "next-auth/react";
 
 export const CompanyContext = createContext({});
 
@@ -124,9 +124,12 @@ export const CompanyProvider = ({ children }) => {
   }), [companies, selectedCompany, isLoading, error]);
 
   return (
+    <SessionProvider>
+
     <CompanyContext.Provider value={contextValue}>
       {children}
     </CompanyContext.Provider>
+    </SessionProvider>
   );
 };
 

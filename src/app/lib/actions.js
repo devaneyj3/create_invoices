@@ -1,8 +1,8 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { auth } from "../../../auth";
+
 const prisma = new PrismaClient();
 
 export async function createInvoice(prevState, formData) {
@@ -88,7 +88,7 @@ export async function updateProfile(prevState, formData) {
 }
 
 export async function addCompany(prevState, formData) {
-	const session = await getServerSession(authOptions);
+	const session = await auth();
 	try {
 		// Extract and sanitize fields
 		const fields = [
