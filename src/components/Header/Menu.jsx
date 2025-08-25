@@ -20,8 +20,7 @@ const Menu = () => {
 	const router = useRouter();
 	return (
 		<>
-			<div className="flex justify-end gap-3">
-				<nav className="md:flex hidden w-full max-w-xs gap-1">
+				<nav className="md:flex hidden max-w-lg">
 					<CreateInvoiceMenuItem />
 					<Button onClick={() => router.push("/dashboard")} variant="ghost">
 						<LayoutDashboard />
@@ -61,7 +60,7 @@ const Menu = () => {
 						</SheetContent>
 					</Sheet>
 				</nav>
-			</div>
+
 		</>
 	);
 };

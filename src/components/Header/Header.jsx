@@ -16,7 +16,6 @@ export default function Header() {
 							height={130}
 							alt="Invoice logo"
 						/>
-						<span className="hidden lg:block font-bold text-2xl ml-3"></span>
 					</Link>
 				</div>
 
