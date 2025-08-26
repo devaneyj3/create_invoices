@@ -14,6 +14,7 @@ export const InvoiceItemProvider = ({ children }) => {
   const [isLoading, setIsLoading] =useState(true)
   const [selectedInvoice, setSelectedInvoice] = useState({})
   const [nextInvoiceNum, setNextInvoiceNumber] = useState()
+    const [invoiceDialogOpen, setInvoiceDialogOpen] = useState(false)
   
   useEffect(() => {
     const getInvoices = async () => {
@@ -70,7 +71,7 @@ export const InvoiceItemProvider = ({ children }) => {
     const res = await fetch('/api/invoice', {
       method: 'POST',
       headers: {
-        'ContentType': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ ...data, userId: session?.user.id })
     })
@@ -92,9 +93,11 @@ export const InvoiceItemProvider = ({ children }) => {
       nextInvoiceNum,
       createInvoice,
       error,
-      isLoading
+      isLoading,
+      invoiceDialogOpen,
+      setInvoiceDialogOpen
   
-    }), [invoices, selectedInvoice, nextInvoiceNum, error, isLoading]);
+    }), [invoices, selectedInvoice, nextInvoiceNum, error, isLoading, invoiceDialogOpen, setInvoiceDialogOpen]);
   return (
     <SessionProvider>
 

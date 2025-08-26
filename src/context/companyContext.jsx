@@ -11,6 +11,7 @@ export const CompanyProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const { data: session, status } = useSession();
 
+
   // Fetch companies for the current user
   useEffect(() => {
     const fetchCompanies = async () => {

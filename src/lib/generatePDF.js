@@ -1,7 +1,6 @@
 import { getCurrentDateFormatted } from "../utils/getDate";
 
-export const generatePdf = async (setIsGenerating, data) => {
-	setIsGenerating(true);
+export const generatePdf = async (data) => {
 	try {
 		const response = await fetch("/api/generate-pdf", {
 			method: "POST",
@@ -62,7 +61,5 @@ export const generatePdf = async (setIsGenerating, data) => {
 	} catch (error) {
 		console.error("Error generating PDF:", error);
 		alert("Failed to generate PDF. Please try again.");
-	} finally {
-		setIsGenerating(false);
 	}
 };

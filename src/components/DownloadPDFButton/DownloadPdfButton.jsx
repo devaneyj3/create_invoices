@@ -1,5 +1,5 @@
 // src/components/DownloadPdfButton.js
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import styles from "./DownloadPdf.module.scss";
 import { useInvoice } from "@/context/InvoiceItemProvider";
@@ -7,12 +7,16 @@ import { generatePdf } from "@/lib/generatePDF";
 
 export default function DownloadPdfButton({disabled, data}) {
 	const [isGenerating, setIsGenerating] = useState(false);
-	const { createInvoice } = useInvoice()
+	const { createInvoice, setInvoiceDialogOpen} = useInvoice()
 
 	const makeInvoice = async () => {
+		setIsGenerating(true)
 		await createInvoice(data)
-		await generatePdf(setIsGenerating, data)
-	
+		setInvoiceDialogOpen(false)
+		console.log('is generating, before ', isGenerating)
+		await generatePdf( data )
+		console.log('is generating after ', isGenerating)
+		setIsGenerating(false)
 	}
 
 
@@ -21,8 +25,8 @@ export default function DownloadPdfButton({disabled, data}) {
 			type="submit"
 			data-testid="download_invoice"
 			onClick={makeInvoice}
-			disabled={disabled}
-			className={`${styles.button} ${disabled ? styles.disabled : ''}`}>
+			disabled={disabled || isGenerating}
+			className={`${styles.button} ${disabled || isGenerating ? styles.disabled : ''}`}>
 			{isGenerating ? "Generating..." : "Download Invoice"}
 		</button>
 	);

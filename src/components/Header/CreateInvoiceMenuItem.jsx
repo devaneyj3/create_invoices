@@ -10,10 +10,12 @@ import styles from "./invoice.module.scss";
 import Form from "../Form/Form";
 import { Button } from "../ui/button";
 import { PiggyBank } from "lucide-react";
+import { useInvoice } from "@/context/InvoiceItemProvider";
 
 export default function CreateInvoiceMenuItem() {
+		const {invoiceDialogOpen, setInvoiceDialogOpen} = useInvoice()
 	return (
-		<Dialog>
+		<Dialog open={invoiceDialogOpen} onOpenChange={setInvoiceDialogOpen}>
 			<DialogTrigger asChild>
 				<Button variant="ghost">
 					<PiggyBank />
