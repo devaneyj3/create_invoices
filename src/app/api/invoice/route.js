@@ -42,7 +42,7 @@ export async function POST(req) {
 		const newInvoice = await prisma.invoice.create({
 			data: {
 				userId: userId,
-				invoiceNumber: invoiceNumber,
+				invoiceNumber: invoiceNumber.toString(),
 				date: date,
 				amount: amount,
 				to: companyName,
