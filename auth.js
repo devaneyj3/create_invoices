@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	debug: true,
+	trustHost: true, // Add this line to fix UntrustedHost error
 	providers: [
 		Google({
 			clientId: process.env.GOOGLE_CLIENT_ID,
