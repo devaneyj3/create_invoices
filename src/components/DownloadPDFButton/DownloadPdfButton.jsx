@@ -5,14 +5,14 @@ import styles from "./DownloadPdf.module.scss";
 import { useInvoice } from "@/context/InvoiceItemProvider";
 import { generatePdf } from "@/lib/generatePDF";
 
-export default function DownloadPdfButton({disabled, ...props}) {
+export default function DownloadPdfButton({disabled, data}) {
 	const [isGenerating, setIsGenerating] = useState(false);
 	const { createInvoice } = useInvoice()
 
 	const makeInvoice = async () => {
-		const data = await createInvoice(props)
-		console.log(data)
-		generatePdf(setIsGenerating)
+		await createInvoice(data)
+		await generatePdf(setIsGenerating, data)
+	
 	}
 
 

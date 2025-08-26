@@ -1,7 +1,6 @@
 "use client";
 import React, { useActionState, useEffect, useState, useMemo } from "react";
 import DownloadPdfButton from "../DownloadPDFButton/DownloadPdfButton";
-import PDFPreview from "../PDFPreview/PDFPreview";
 import styles from "./Form.module.scss";
 import { createInvoice } from "../../app/lib/actions";
 import { useInvoiceForm } from "../../context/InvoiceFormContext";
@@ -151,8 +150,7 @@ export default function Form() {
 				</div>
 				
 				<div className={styles.buttonContainer}>
-					<PDFPreview {...invoiceData} disabled={!allFieldsFilled} />
-					<DownloadPdfButton {...invoiceData} disabled={!allFieldsFilled} />
+					<DownloadPdfButton data={invoiceData} disabled={!allFieldsFilled} />
 				</div>
 			</form>
 		</div>

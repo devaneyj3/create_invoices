@@ -66,7 +66,7 @@ export const InvoiceItemProvider = ({ children }) => {
     }
   }, [invoices]);
 
-  const createInvoice = async(data) => {
+  const createInvoice = async (data) => {
     const res = await fetch('/api/invoice', {
       method: 'POST',
       headers: {

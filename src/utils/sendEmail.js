@@ -1,8 +1,11 @@
 import nodemailer from "nodemailer";
 import { getCurrentDateFormatted } from "@/utils/getDate";
 
-export const sendEmail = async () => {
+export const sendEmail = async (base64String) => {
 	try {
+		// Convert base64 string back to buffer
+		const pdfBuffer = Buffer.from(base64String, "base64");
+
 		const transporter = nodemailer.createTransport({
 			host: "smtp.gmail.com",
 			port: 465,
@@ -18,11 +21,12 @@ export const sendEmail = async () => {
 			to: "jordandevaney28@gmail.com",
 			subject: `Invoice for ${getCurrentDateFormatted()}`,
 			text: `Here is my invoice for ${getCurrentDateFormatted()}`,
-			html: `<p>Here is my invoice for ${getCurrentDateFormatted()}</p>`,
+			html: `<p>Here is my invoice for ${getCurrentDateFormatted()}</p><p>I want all your money. Greetings from my node mailer automated program.<p/>`,
 			attachments: [
 				{
-					filename: "buffer.txt",
-					content: Buffer.from("Hello world!", "utf8"),
+					filename: `invoice_${getCurrentDateFormatted()}.pdf`,
+					content: pdfBuffer,
+					contentType: "application/pdf",
 				},
 			],
 		});
