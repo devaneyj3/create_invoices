@@ -13,9 +13,7 @@ export default function DownloadPdfButton({disabled, data}) {
 		setIsGenerating(true)
 		await createInvoice(data)
 		setInvoiceDialogOpen(false)
-		console.log('is generating, before ', isGenerating)
 		await generatePdf( data )
-		console.log('is generating after ', isGenerating)
 		setIsGenerating(false)
 	}
 

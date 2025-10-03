@@ -18,10 +18,10 @@ export const sendEmail = async (base64String) => {
 
 		const info = await transporter.sendMail({
 			from: '"Jordan Devaney" <jordandevaney28@gmail.com>',
-			to: "jordandevaney28@gmail.com",
+			to: "sarah@ag-usa.net",
 			subject: `Invoice for ${getCurrentDateFormatted()}`,
 			text: `Here is my invoice for ${getCurrentDateFormatted()}`,
-			html: `<p>Here is my invoice for ${getCurrentDateFormatted()}</p><p>I want all your money. Greetings from my node mailer automated program.<p/>`,
+			html: `<p>Here is my invoice for ${getCurrentDateFormatted()}</p>`,
 			attachments: [
 				{
 					filename: `invoice_${getCurrentDateFormatted()}.pdf`,
