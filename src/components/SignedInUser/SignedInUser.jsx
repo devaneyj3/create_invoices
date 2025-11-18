@@ -5,32 +5,15 @@ import styles from "./SignedInUser.module.scss";
 import { useAuth } from '@/context/authContext';
 import CompanyForm from '../CompanyForm/CompanyForm';
 import { useState } from 'react';
-import { Button } from '../ui/button';
 
 export default function SignedInUser() {
   const { signedInUser } = useAuth();
   const [showAddCompany, setShowAddCompany] = useState(false)
-  const [loading, setLoading] = useState(false);
   
-  const runCron = async () => {
-	setLoading(true);
-	try {
-		const res = await fetch('/api/test-cron', { method: 'GET', cache: 'no-store' });
-		const data = await res.json();
-		console.log('Triggered:', data);
-	} catch (e) {
-		console.error(e);
-		alert('Failed to trigger');
-	} finally {
-		setLoading(false);
-	}
-};
+
   if (signedInUser) {
     return (
       <div className={styles.profileContainer}>
-        <Button onClick={runCron} disabled={loading}>
-	{loading ? 'Running…' : 'Run Cron Job'}
-</Button>
         <div className={styles.profileHeader}>
           <div className={styles.avatarSection}>
             <div className={styles.avatar}>
@@ -114,7 +97,7 @@ export default function SignedInUser() {
             <button className={styles.secondaryButton}>
               <span className={styles.buttonIcon}>📝</span>
               Edit Profile
-            </button>
+            </button>Í
           </div>
 
           {showAddCompany && (
