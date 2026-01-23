@@ -167,7 +167,7 @@ export const InvoicePDF = (props) => {
 						</View>
 						<View style={styles.box}>
 							<Text style={styles.invoiceText}>
-								INVOICE#: 2025-{invoiceNumber}
+									INVOICE#: {new Date().getFullYear()}-{invoiceNumber}
 							</Text>
 							<Text style={styles.invoiceText}>
 								DATE: {getCurrentDateFormatted()}
