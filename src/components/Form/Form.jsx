@@ -7,8 +7,6 @@ import { useInvoiceForm } from "../../context/InvoiceFormContext";
 import { useAuth } from "../../context/authContext";
 import { useCompany } from "@/context/companyContext";
 import { useInvoice } from "@/context/InvoiceItemProvider";
-import { getYear } from "@/utils/getDate";
-
 // Move form configuration outside component for better maintainability
 const FORM_FIELDS = [
 	{
@@ -31,22 +29,22 @@ const FORM_FIELDS = [
 ];
 
 export default function Form() {
-	const { formState, setFormState } = useInvoiceForm();
+	const { setFormState } = useInvoiceForm();
 	const { signedInUser } = useAuth();
 	const { selectedCompany } = useCompany();
-	const { nextInvoiceNum, isLoading } = useInvoice();
+	const { invoices,nextInvoiceNum, isLoading } = useInvoice();
 
 	// Add local state to track form values in real-time
 	const [formValues, setFormValues] = useState({
 		invoiceNumber: nextInvoiceNum || 0,
-		amount: "",
-		jobDescription: "",
+		amount: invoices[invoices.length -1].amount,
+		jobDescription: invoices[invoices.length -1].description,
 	});
 
-	const [state, action, pending] = useActionState(createInvoice, {
+	const [state, action] = useActionState(createInvoice, {
 		invoiceNumber: nextInvoiceNum,
-		amount: "",
-		jobDescription: "",
+		amount: invoices[invoices.length -1].amount,
+		jobDescription: invoices[invoices.length -1].description,
 		error: "",
 		success: false,
 	});
