@@ -62,7 +62,7 @@ export const InvoiceItemProvider = ({ children }) => {
     if (invoices && invoices.length > 0) {
       const sorted = [...invoices].sort((a, b) => a.invoiceNumber - b.invoiceNumber);
       const lastInvoice = sorted[sorted.length - 1];
-      const newInvoiceNum = createInvoiceNumForYear(lastInvoice)
+      const newInvoiceNum = createInvoiceNumForYear(lastInvoice.invoiceNumber)
 
       setNextInvoiceNumber(newInvoiceNum);
     } else if (invoices && invoices.length === 0) {

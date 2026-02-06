@@ -99,7 +99,7 @@ export default function Form() {
 	}, [formValues]);
 	// Show loading state
 	if (isLoading ) {
-		console.error(nextInvoiceNum)
+
 		return (
 			<div className={styles.landingCard}>
 				<div>Loading...</div>

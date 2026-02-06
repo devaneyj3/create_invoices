@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
 });
 
 export const InvoicePDF = (props) => {
-	console.log(props)
 	const { invoiceNumber, amount, name, phone, address, city, state, companyName, companyAddress, companyCity, companyState, companyZip, zip, jobTitle, jobDescription } = props
 	return (
 
@@ -167,7 +166,7 @@ export const InvoicePDF = (props) => {
 						</View>
 						<View style={styles.box}>
 							<Text style={styles.invoiceText}>
-									INVOICE#: {new Date().getFullYear()}-{invoiceNumber}
+									INVOICE#: {invoiceNumber}
 							</Text>
 							<Text style={styles.invoiceText}>
 								DATE: {getCurrentDateFormatted()}
