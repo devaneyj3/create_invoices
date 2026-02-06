@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react"
 
 import { useSession, SessionProvider } from "next-auth/react"
+import { createInvoiceNumForYear } from "@/utils/getDate"
 
 export const InvoiceItem = createContext({})
 
@@ -59,9 +60,11 @@ export const InvoiceItemProvider = ({ children }) => {
 
   useEffect(() => {
     if (invoices && invoices.length > 0) {
-      const sorted = [...invoices].sort((a, b) => Number(a.invoiceNumber) - Number(b.invoiceNumber));
+      const sorted = [...invoices].sort((a, b) => a.invoiceNumber - b.invoiceNumber);
       const lastInvoice = sorted[sorted.length - 1];
-      setNextInvoiceNumber(Number(lastInvoice?.invoiceNumber || 0) + 1);
+      const newInvoiceNum = createInvoiceNumForYear(lastInvoice)
+
+      setNextInvoiceNumber(newInvoiceNum);
     } else if (invoices && invoices.length === 0) {
       setNextInvoiceNumber(1);
     }

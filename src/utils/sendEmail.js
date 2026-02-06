@@ -18,7 +18,7 @@ export const sendEmail = async (base64String) => {
 
 		const info = await transporter.sendMail({
 			from: '"Jordan Devaney" <jordandevaney28@gmail.com>',
-			to: "sarah@ag-usa.net",
+			to: "jordandevaney28@gmail.com",
 			subject: `Invoice for ${getCurrentDateFormatted()}`,
 			text: `Here is my invoice for ${getCurrentDateFormatted()}`,
 			html: `<p>Here is my invoice for ${getCurrentDateFormatted()}</p>`,

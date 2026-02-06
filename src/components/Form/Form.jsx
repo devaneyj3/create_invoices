@@ -7,6 +7,7 @@ import { useInvoiceForm } from "../../context/InvoiceFormContext";
 import { useAuth } from "../../context/authContext";
 import { useCompany } from "@/context/companyContext";
 import { useInvoice } from "@/context/InvoiceItemProvider";
+import { getYear } from "@/utils/getDate";
 
 // Move form configuration outside component for better maintainability
 const FORM_FIELDS = [
@@ -37,7 +38,7 @@ export default function Form() {
 
 	// Add local state to track form values in real-time
 	const [formValues, setFormValues] = useState({
-		invoiceNumber: nextInvoiceNum || "",
+		invoiceNumber: nextInvoiceNum || 0,
 		amount: "",
 		jobDescription: "",
 	});
@@ -96,9 +97,9 @@ export default function Form() {
 			(key) => !!formValues[key] && formValues[key].toString().trim() !== ""
 		);
 	}, [formValues]);
-
 	// Show loading state
-	if (isLoading || typeof nextInvoiceNum !== "number" || isNaN(nextInvoiceNum) || nextInvoiceNum < 1) {
+	if (isLoading ) {
+		console.error(nextInvoiceNum)
 		return (
 			<div className={styles.landingCard}>
 				<div>Loading...</div>
