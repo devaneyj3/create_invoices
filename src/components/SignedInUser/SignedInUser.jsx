@@ -97,7 +97,7 @@ export default function SignedInUser() {
             <button className={styles.secondaryButton}>
               <span className={styles.buttonIcon}>📝</span>
               Edit Profile
-            </button>Í
+            </button>
           </div>
 
           {showAddCompany && (

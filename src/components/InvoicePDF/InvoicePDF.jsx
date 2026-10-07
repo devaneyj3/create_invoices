@@ -1,7 +1,7 @@
 // src/components/InvoicePDF.js
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { formatMoney } from "../../utils/formatMoney";
-import { getCurrentDateFormatted } from "../../utils/getDate"
+import { formatDateForInvoice, getCurrentDateFormatted } from "../../utils/getDate"
 
 // Create styles
 const styles = StyleSheet.create({
@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
 });
 
 export const InvoicePDF = (props) => {
-	const { invoiceNumber, amount, name, phone, address, city, state, companyName, companyAddress, companyCity, companyState, companyZip, zip, jobTitle, jobDescription } = props
+	const { invoiceNumber, amount, name, phone, address, city, state, companyName, companyAddress, companyCity, companyState, companyZip, zip, jobTitle, jobDescription, date } = props
+	const invoiceDate = date ? formatDateForInvoice(date) : getCurrentDateFormatted()
 	return (
 
 		<Document>
@@ -141,7 +142,7 @@ export const InvoicePDF = (props) => {
 				<View style={styles.leftHeader}>
 					<View style={styles.leftHeaderContents}>
 						<View style={styles.box}>
-							<Text style={styles.name}>{name}</Text>
+								<Text style={styles.name}>{name}</Text>
 								<Text style={styles.subtitle}>{jobTitle}</Text>
 						</View>
 						<View style={styles.box}>
@@ -169,7 +170,7 @@ export const InvoicePDF = (props) => {
 									INVOICE#: {invoiceNumber}
 							</Text>
 							<Text style={styles.invoiceText}>
-								DATE: {getCurrentDateFormatted()}
+								DATE: {invoiceDate}
 							</Text>
 						</View>
 						<View style={styles.box}>
@@ -190,7 +191,7 @@ export const InvoicePDF = (props) => {
 				</View>
 				<View style={styles.tableRow}>
 						<Text style={styles.description}>{jobDescription}</Text>
-					<Text style={styles.date}>{getCurrentDateFormatted()}</Text>
+					<Text style={styles.date}>{invoiceDate}</Text>
 					<Text style={styles.amount}>{formatMoney(amount)}</Text>
 				</View>
 			</View>

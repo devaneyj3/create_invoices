@@ -1,9 +1,13 @@
-export function getCurrentDateFormatted() {
-	const now = new Date();
-	const mm = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-indexed
-	const dd = String(now.getDate()).padStart(2, "0");
-	const yy = String(now.getFullYear()).slice(-2); // last two digits of the year
+export function formatDateForInvoice(date = new Date()) {
+	const d = date instanceof Date ? date : new Date(date);
+	const mm = String(d.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-indexed
+	const dd = String(d.getDate()).padStart(2, "0");
+	const yy = String(d.getFullYear()).slice(-2); // last two digits of the year
 	return `${mm}/${dd}/${yy}`;
+}
+
+export function getCurrentDateFormatted() {
+	return formatDateForInvoice(new Date());
 }
 
 export function getYear() {
