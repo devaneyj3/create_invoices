@@ -25,7 +25,7 @@ A full-stack application for creating and managing companies and generating down
    `app/lib/actions.js` (line 90)
 
 4. When you hit the `Add Company` button, the `createCompany` function is called from `context/companyContext.jsx`
-5. `context/companyContext.jsx` calls `/api/companies` to save the data to the supabase database with the Prisma ORM
+5. `context/companyContext.jsx` calls `/api/companies` to save the data to the Neon Postgres database with the Prisma ORM
 6. `/api/companies` returns data to `context/companyContext.jsx` to save the new company to the context for real time updates
 ---
 
@@ -52,7 +52,7 @@ A full-stack application for creating and managing companies and generating down
 4. **PDF Generation Flow**:
    - `makeInvoice()` in `DownloadPdfButton.jsx`:
      - Calls `createInvoice()` from `context/invoiceItemProvider.jsx` to save the new invoice to the context so that it can show up immediately in `components/PastInvoices/PastInvoices.jsx` 
-     - Sends data to `/api/invoice/route.js` to create the invoice and save to the supabase database using prisma
+     - Sends data to `/api/invoice/route.js` to create the invoice and save to the Neon Postgres database using prisma
      - Also calls `/api/generate-pdf` to generate the PDF file
 
 5. `components/PDFPreview/PDFPreview.jsx`:

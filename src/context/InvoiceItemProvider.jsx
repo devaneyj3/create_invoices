@@ -60,28 +60,38 @@ export const InvoiceItemProvider = ({ children }) => {
 
   useEffect(() => {
     if (invoices && invoices.length > 0) {
-      const sorted = [...invoices].sort((a, b) => a.invoiceNumber - b.invoiceNumber);
+      const sorted = [...invoices].sort((a, b) =>
+        String(a.invoiceNumber).localeCompare(String(b.invoiceNumber), undefined, {
+          numeric: true,
+        })
+      );
       const lastInvoice = sorted[sorted.length - 1];
       const newInvoiceNum = createInvoiceNumForYear(lastInvoice.invoiceNumber)
 
       setNextInvoiceNumber(newInvoiceNum);
     } else if (invoices && invoices.length === 0) {
-      setNextInvoiceNumber(1);
+      setNextInvoiceNumber(createInvoiceNumForYear("0"));
     }
   }, [invoices]);
 
   const createInvoice = async (data) => {
+    if (!session?.user?.id) {
+      throw new Error("You must be signed in to save an invoice");
+    }
+
     const res = await fetch('/api/invoice', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ ...data, userId: session?.user.id })
+      body: JSON.stringify({ ...data, userId: session.user.id })
     })
     const newInvoice = await res.json()
+    if (!res.ok || newInvoice?.error) {
+      throw new Error(newInvoice?.detail || newInvoice?.error || "Failed to save invoice to database");
+    }
     setInvoices(prev => [...prev, newInvoice])
     setSelectedInvoice(newInvoice)
-    if(!res.ok) throw new Error('Failed to save invoice to database')
     return newInvoice
   } 
   

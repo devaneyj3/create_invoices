@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { getCurrentDateFormatted } from "@/utils/getDate";
 
 const prisma = new PrismaClient();
 export async function GET(req) {
@@ -33,28 +32,36 @@ export async function POST(req) {
 	const { invoiceNumber, jobDescription, amount, userId, companyName } =
 		await req.json();
 
-	let date = getCurrentDateFormatted();
-
-	//formate into ISO-8601 Datetime Format for the database
-	date = date ? new Date(date) : new Date();
+	if (!userId || !invoiceNumber || amount == null || !companyName) {
+		return NextResponse.json(
+			{
+				error:
+					"userId, invoiceNumber, amount, and companyName are required",
+			},
+			{ status: 400 }
+		);
+	}
 
 	try {
 		const newInvoice = await prisma.invoice.create({
 			data: {
-				userId: userId,
+				userId,
 				invoiceNumber: invoiceNumber.toString(),
-				date: date,
-				amount: amount,
+				date: new Date(),
+				amount,
 				to: companyName,
-				description: jobDescription,
+				description: jobDescription || "",
 			},
 		});
 		return NextResponse.json(newInvoice);
 	} catch (error) {
-		console.error(error);
-		return NextResponse.json({
-			error: "Failed to create invoice",
-			status: 500,
-		});
+		console.error("Error creating invoice:", error);
+		return NextResponse.json(
+			{
+				error: "Failed to create invoice",
+				detail: error.message,
+			},
+			{ status: 500 }
+		);
 	}
 }

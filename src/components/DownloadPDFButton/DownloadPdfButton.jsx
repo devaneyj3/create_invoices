@@ -10,12 +10,23 @@ export default function DownloadPdfButton({disabled, data}) {
 	const { createInvoice, setInvoiceDialogOpen} = useInvoice()
 
 	const makeInvoice = async () => {
-		setIsGenerating(true)
-		await createInvoice(data)
-		setInvoiceDialogOpen(false)
-		await generatePdf( data )
-		setIsGenerating(false)
-	}
+		if (!data) {
+			alert("Select a company and fill in the invoice fields first.");
+			return;
+		}
+
+		setIsGenerating(true);
+		try {
+			await createInvoice(data);
+			setInvoiceDialogOpen(false);
+			await generatePdf(data);
+		} catch (error) {
+			console.error("Failed to create invoice:", error);
+			alert(error.message || "Failed to save invoice to the database.");
+		} finally {
+			setIsGenerating(false);
+		}
+	};
 
 
 	return (

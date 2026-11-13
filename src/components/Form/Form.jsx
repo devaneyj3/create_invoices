@@ -34,30 +34,32 @@ export default function Form() {
 	const { selectedCompany } = useCompany();
 	const { invoices,nextInvoiceNum, isLoading } = useInvoice();
 
+	const lastInvoice = invoices.length > 0 ? invoices[invoices.length - 1] : null;
+
 	// Add local state to track form values in real-time
 	const [formValues, setFormValues] = useState({
-		invoiceNumber: nextInvoiceNum || 0,
-		amount: invoices[invoices.length -1].amount,
-		jobDescription: invoices[invoices.length -1].description,
+		invoiceNumber: nextInvoiceNum || "",
+		amount: lastInvoice?.amount ?? "",
+		jobDescription: lastInvoice?.description ?? "",
 	});
 
 	const [state, action] = useActionState(createInvoice, {
 		invoiceNumber: nextInvoiceNum,
-		amount: invoices[invoices.length -1].amount,
-		jobDescription: invoices[invoices.length -1].description,
+		amount: lastInvoice?.amount ?? "",
+		jobDescription: lastInvoice?.description ?? "",
 		error: "",
 		success: false,
 	});
 
-	// Update formValues when nextInvoiceNum changes
+	// Prefill when invoices / next number load
 	useEffect(() => {
-		if (nextInvoiceNum && typeof nextInvoiceNum === "number") {
-			setFormValues(prev => ({
-				...prev,
-				invoiceNumber: nextInvoiceNum
-			}));
-		}
-	}, [nextInvoiceNum]);
+		setFormValues((prev) => ({
+			...prev,
+			invoiceNumber: nextInvoiceNum || prev.invoiceNumber,
+			amount: prev.amount || lastInvoice?.amount || "",
+			jobDescription: prev.jobDescription || lastInvoice?.description || "",
+		}));
+	}, [nextInvoiceNum, lastInvoice?.amount, lastInvoice?.description]);
 
 	// Handle input changes in real-time
 	const handleInputChange = (e) => {
